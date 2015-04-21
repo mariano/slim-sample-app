@@ -1,0 +1,11 @@
+{
+    "autoload": {
+        "psr-4": { "": "src/" }
+    },
+    "require": {
+        "slim/slim": "dev-develop as 3.0.0",
+        "twig/twig": "~1.18",
+        "doctrine/orm": "2.*",
+        "vlucas/phpdotenv": "2.x-dev"
+    }
+}

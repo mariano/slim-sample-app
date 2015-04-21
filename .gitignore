@@ -1,0 +1,5 @@
+.env
+public/assets/bower_components
+cache/
+node_modules/
+vendor/
