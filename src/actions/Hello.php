@@ -1,23 +1,15 @@
 <?php
 namespace actions;
 
-use Slim\App;
+use Action\BaseAction;
+use View\View;
 
-class Hello
+class Hello extends BaseAction
 {
-    protected $app;
-
-    public function __construct(App $app)
+    public function hello(array $args)
     {
-        $this->app = $app;
-    }
-
-    public function hello(\Slim\Http\Request $request, \Slim\Http\Response $response, array $args)
-    {
-        $response->write($this->app['view']->render('hello.html', [
-            'name' => $args['name'],
-            'debug' => true
-        ]));
-        return $response;
+        return new View('hello.html', [
+            'name' => $args['name']
+        ]);
     }
 }

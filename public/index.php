@@ -36,10 +36,10 @@ $app->get('/login', function (\Slim\Http\Request $request, \Slim\Http\Response $
     return $response;
 });
 
-$app->get('/hello/{name}', 'Hello:hello')->setName('hello');
+$app->get('/hello/{name}', 'Hello:helloAction')->setName('hello');
 
 $app['Hello'] = function(App $app) {
-    return new \actions\Hello($app);
+    return new \actions\Hello($app['view']);
 };
 
 $app->run();

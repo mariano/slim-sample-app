@@ -1,9 +1,9 @@
 <?php
 namespace Data\Entities;
 
-use Data\Entities\Contract;
+use Data\Entities\Contract\UserInterface;
 
-class User implements Contract\User
+class User implements UserInterface
 {
     const PASSWORD_ALGORITHM = PASSWORD_BCRYPT;
 

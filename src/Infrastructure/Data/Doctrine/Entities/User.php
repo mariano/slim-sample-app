@@ -1,11 +1,11 @@
 <?php
 namespace Infrastructure\Data\Doctrine\Entities;
 
-use Data\Entities\Contract;
+use Data\Entities\Contract\UserInterface;
 use Data\Entities\User as BaseUser;
 use Doctrine\ORM\Mapping\ClassMetadata;
 
-class User extends BaseUser implements Contract\User
+class User extends BaseUser implements UserInterface
 {
     public static function loadMetadata(ClassMetadata $metadata)
     {

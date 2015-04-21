@@ -44,7 +44,7 @@ use InvalidArgumentException;
  * - parserDirectory
  * - parserOptions
  */
-class Twig
+class Twig implements RendererInterface
 {
     /**
      * @var string The path to the Twig code directory WITHOUT the trailing slash

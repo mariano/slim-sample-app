@@ -1,7 +1,7 @@
 <?php
 namespace Data\Entities\Contract;
 
-interface User
+interface UserInterface
 {
     public function getId();
     public function getEmail();
