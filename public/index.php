@@ -7,13 +7,12 @@ define ('ROOT_APP', ROOT . '/src');
 
 require_once(ROOT . '/vendor/autoload.php');
 
-$app = new App([
-]);
+$settings = require_once(ROOT_APP . '/config.php');
+$app = new App($settings);
 
-$app['config'] = require_once(ROOT_APP . '/config.php');
 /*
 $createEntityManager = require_once(ROOT_APP . '/Infrastructure/Data/Doctrine/bootstrap.php');
-$em = $createEntityManager($app['config']['db']);
+$em = $createEntityManager($app['settings']['db']);
 $class = $em->getMetadataFactory()->getMetadataFor('Infrastructure\\Data\\Doctrine\\Entities\\User');
 var_dump($class); exit;
 */
