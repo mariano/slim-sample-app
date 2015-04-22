@@ -2,47 +2,49 @@
 use Aura\Di\Container;
 use Aura\Di\Factory;
 use Slim\App;
-use View\Twig;
 
 define ('ROOT', dirname(__DIR__));
 define ('ROOT_APP', ROOT . '/src');
 
 require_once(ROOT . '/vendor/autoload.php');
 
-$settings = require_once(ROOT_APP . '/config.php');
-$app = new App($settings);
+// Set up dependencies
 
-/*
-$createEntityManager = require_once(ROOT_APP . '/Infrastructure/Data/Doctrine/bootstrap.php');
-$em = $createEntityManager($app['settings']['db']);
-$class = $em->getMetadataFactory()->getMetadataFor('Infrastructure\\Data\\Doctrine\\Entities\\User');
-var_dump($class); exit;
-*/
+$di = new Container(new Factory());
+$di->set('settings', $di->lazyRequire(ROOT_APP . '/config.php'));
+$di->set(\View\RendererInterface::class, $di->lazyNew(\View\Twig::class));
+$di->set(\Doctrine\ORM\EntityManagerInterface::class, $di->lazy(function () use ($di) {
+    $settings = $di->get('settings');
+    $createEntityManager = require_once(ROOT_APP . '/Infrastructure/Data/Doctrine/bootstrap.php');
+    return $createEntityManager($settings['db']);
+}));
+$di->setter[\Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet(\View\RendererInterface::class);
 
-$view = new Twig();
+// Create application
+
+$app = new App($di->get('settings'));
+$app->get('/login', function (\Slim\Http\Request $request, \Slim\Http\Response $response, array $args) use ($di) {
+    $response->write($di->get(\View\RendererInterface::class)->render('auth/login.html', [
+        'debug' => true
+    ]));
+    return $response;
+});
+
+// Configure view
+
+$view = $di->get(\View\RendererInterface::class);
 $view->parserOptions = [
     'debug' => true,
     'cache' => ROOT . '/cache',
 ];
 $view->twigTemplateDirs = ROOT . '/templates';
 $view->parserExtensions = [
-    new Twig\Extension($app['request']->getUri(), $app['router'])
+    new \View\Twig\Extension($app['request']->getUri(), $app['router'])
 ];
 
-$app['view'] = $view;
-
-$app->get('/login', function (\Slim\Http\Request $request, \Slim\Http\Response $response, array $args) {
-    $response->write($this['view']->render('auth/login.html', [
-        'debug' => true
-    ]));
-    return $response;
-});
+// Set up routes
 
 $app->get('/hello/{name}', 'Hello:hello')->setName('hello');
-
-$di = new Container(new Factory());
-$di->setter[\Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet(\View\RendererInterface::class);
-$di->set(\View\RendererInterface::class, $app['view']);
 
 foreach ([
     'Hello' => \Controller\Hello::class
@@ -51,5 +53,7 @@ foreach ([
         return $di->newInstance($class);
     };
 }
+
+// Run application
 
 $app->run();
