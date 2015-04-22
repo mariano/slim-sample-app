@@ -1,7 +1,6 @@
 <?php
 namespace Controller;
 
-use Action\BaseAction;
 use View\View;
 
 class Hello extends BaseController
