@@ -1,5 +1,5 @@
 <?php
-namespace Action;
+namespace Controller;
 
 use BadMethodCallException;
 use Psr\Http\Message\RequestInterface;
@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use View\RendererInterface;
 use View\ViewInterface;
 
-abstract class BaseAction
+abstract class BaseController
 {
     /**
      * Action request
@@ -52,12 +52,11 @@ abstract class BaseAction
     public function __call($name, array $arguments)
     {
         if (
-            preg_match('/(.+)Action$/', $name, $match) &&
             count($arguments) >= 2 &&
             ($arguments[0] instanceof RequestInterface) &&
             ($arguments[1] instanceof ResponseInterface)
         ) {
-            $method = $match[1];
+            $method = $name.'Action';
             if (!method_exists($this, $method)) {
                 throw new BadMethodCallException("Action method {$method} is not defined");
             }
