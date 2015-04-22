@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use View\RendererInterface;
 use View\ViewInterface;
 
-abstract class BaseController
+abstract class BaseController implements ControllerInterface
 {
     /**
      * Action request
@@ -31,12 +31,11 @@ abstract class BaseController
     private $renderer;
 
     /**
-     * View renderer
+     * Set view renderer
      *
-     * @var View\RendererInterface
+     * @param View\RendererInterface $renderer Renderer
      */
-
-    public function __construct(RendererInterface $renderer)
+    public function setRenderer(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
     }

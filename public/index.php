@@ -1,4 +1,6 @@
 <?php
+use Aura\Di\Container;
+use Aura\Di\Factory;
 use Slim\App;
 use View\Twig;
 
@@ -38,8 +40,16 @@ $app->get('/login', function (\Slim\Http\Request $request, \Slim\Http\Response $
 
 $app->get('/hello/{name}', 'Hello:hello')->setName('hello');
 
-$app['Hello'] = function(App $app) {
-    return new \Controller\Hello($app['view']);
-};
+$di = new Container(new Factory());
+$di->setter[\Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet(\View\RendererInterface::class);
+$di->set(\View\RendererInterface::class, $app['view']);
+
+foreach ([
+    'Hello' => \Controller\Hello::class
+] as $key => $class) {
+    $app[$key] = function (App $app) use($di, $class) {
+        return $di->newInstance($class);
+    };
+}
 
 $app->run();
