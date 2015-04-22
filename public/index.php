@@ -18,8 +18,8 @@ $di->set(App::class, $app);
 // Set up controllers
 
 foreach ([
-    'Hello' => \Controller\Hello::class,
-    'Auth' => \Controller\Auth::class
+    'Hello' => Controller\Hello::class,
+    'Auth' => Controller\Auth::class
 ] as $key => $class) {
     $app[$key] = function (App $app) use($di, $class) {
         return $di->newInstance($class);
