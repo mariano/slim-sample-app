@@ -14,5 +14,10 @@ return [
         'password' => $dotenv->get('DB_PASSWORD'),
         'database' => $dotenv->get('DB_DATABASE'),
         'debug' => ($dotenv->get('DB_DEBUG') ? true : false)
+    ],
+    'view' => [
+        'debug' => ($dotenv->get('VIEW_DEBUG') ? true : false),
+        'cache' => ROOT . '/cache',
+        'templates' => ROOT . '/templates'
     ]
 ];

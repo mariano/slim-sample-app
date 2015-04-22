@@ -10,6 +10,20 @@ use View\ViewInterface;
 abstract class BaseController implements ControllerInterface
 {
     /**
+     * Settings
+     *
+     * @var array
+     */
+    protected $settings;
+
+    /**
+     * Renderer
+     *
+     * @var View\RendererInterface
+     */
+    private $renderer;
+
+    /**
      * Action request
      *
      * @var Psr\Http\Message\RequestInterface
@@ -24,13 +38,6 @@ abstract class BaseController implements ControllerInterface
     private $response;
 
     /**
-     * Renderer
-     *
-     * @var View\RendererInterface
-     */
-    private $renderer;
-
-    /**
      * Set view renderer
      *
      * @param View\RendererInterface $renderer Renderer
@@ -38,6 +45,16 @@ abstract class BaseController implements ControllerInterface
     public function setRenderer(RendererInterface $renderer)
     {
         $this->renderer = $renderer;
+    }
+
+    /**
+     * Set settings
+     *
+     * @param array $settings Settings
+     */
+    public function setSettings(array $settings)
+    {
+        $this->settings = $settings;
     }
 
     /**
@@ -69,7 +86,7 @@ abstract class BaseController implements ControllerInterface
                 $response->write($result);
             } elseif ($result instanceof ViewInterface) {
                 $vars = $result->getVars() + [
-                    'debug' => true
+                    'debug' => !empty($this->settings['view']['debug'])
                 ];
                 $response->write($this->renderer->render($result->getTemplate(), $vars));
             }
