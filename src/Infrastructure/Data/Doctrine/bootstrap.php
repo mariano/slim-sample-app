@@ -8,7 +8,7 @@ return function (array $dbParams, $entitiesPath = null) {
     $dbParams = array_diff_key($dbParams, ['debug'=>null]);
 
     if (is_null($entitiesPath)) {
-        $entitiesPath = __DIR__ . '/Entities';
+        $entitiesPath = __DIR__ . '/Entity';
     }
 
     $config = Setup::createAnnotationMetadataConfiguration((array) $entitiesPath, $debug);

@@ -17,18 +17,18 @@ abstract class BaseController implements ControllerInterface
     protected $settings;
 
     /**
+     * Action request
+     *
+     * @var Psr\Http\Message\RequestInterface
+     */
+    protected $request;
+
+    /**
      * Renderer
      *
      * @var View\RendererInterface
      */
     private $renderer;
-
-    /**
-     * Action request
-     *
-     * @var Psr\Http\Message\RequestInterface
-     */
-    private $request;
 
     /**
      * Action response

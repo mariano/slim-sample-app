@@ -30,6 +30,7 @@ foreach ([
 
 $app->get('/hello/{name}', 'Hello:hello')->setName('hello');
 $app->get('/login', 'Auth:login')->setName('login');
+$app->post('/login', 'Auth:doLogin');
 
 // Run application
 
