@@ -1,7 +1,7 @@
 <?php
 namespace Infrastructure\Data\Doctrine\Entity;
 
-use Data\Entity\Contract\UserInterface;
+use Data\Entity\UserInterface;
 use Data\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping\ClassMetadata;
 

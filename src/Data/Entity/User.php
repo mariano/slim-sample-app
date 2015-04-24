@@ -1,7 +1,7 @@
 <?php
 namespace Data\Entity;
 
-use Data\Entity\Contract\UserInterface;
+use Data\Entity\UserInterface;
 
 class User implements UserInterface
 {

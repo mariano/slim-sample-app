@@ -24,27 +24,13 @@ foreach ([
     ]
 ] as $entity => $store) {
     list($storeImplementation, $repositoryImplementation) = $store;
-
-    $repositoryKey = "{$entity}Repository";
     $di->params[$repositoryImplementation]['em'] = $di->lazyGet('EntityManager');
-    $di->set($repositoryKey, $di->lazyNew($repositoryImplementation));
-
-    $storeKey = "{$entity}Store";
-    $di->params[$storeImplementation]['repo'] = $di->lazyGet($repositoryKey);
-    $di->set($storeKey, $di->lazyNew($storeImplementation));
+    $di->set("{$entity}Store", $di->lazyNew($storeImplementation, [
+        'repo' => $di->lazyNew($repositoryImplementation)
+    ]));
 }
 
 // Controllers
-
-foreach ([
-    Controller\Auth::class => [
-        'store' => 'UserStore'
-    ]
-] as $controllerImplementation => $params) {
-    foreach ($params as $param => $key) {
-        $di->params[$controllerImplementation][$param] = $di->lazyGet($key);
-    }
-}
 
 $di->setter[Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet('ViewRenderer');
 $di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet('settings');

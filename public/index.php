@@ -17,14 +17,15 @@ $di->set(App::class, $app);
 
 // Set up controllers
 
-foreach ([
-    'Hello' => Controller\Hello::class,
-    'Auth' => Controller\Auth::class
-] as $key => $class) {
-    $app[$key] = function (App $app) use($di, $class) {
-        return $di->newInstance($class);
-    };
-}
+$app['Auth'] = function (App $app) use ($di) {
+    return $di->newInstance(Controller\Auth::class, [
+        'store' => $di->get('UserStore')
+    ]);
+};
+
+$app['Hello'] = function (App $app) use ($di) {
+    return $di->newInstance(Controller\Hello::class);
+};
 
 // Set up routes
 

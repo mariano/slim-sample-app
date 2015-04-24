@@ -1,5 +1,5 @@
 <?php
-namespace Data\Entity\Contract;
+namespace Data\Entity;
 
 interface UserInterface
 {

@@ -1,6 +1,7 @@
 <?php
 namespace Data\Store;
 
+use Data\Store\Exception\InvalidLoginException;
 use Data\Store\Repository\UserRepositoryInterface;
 
 class UserStore implements UserStoreInterface
