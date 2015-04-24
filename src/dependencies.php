@@ -24,9 +24,10 @@ foreach ([
     ]
 ] as $entity => $store) {
     list($storeImplementation, $repositoryImplementation) = $store;
-    $di->params[$repositoryImplementation]['em'] = $di->lazyGet('EntityManager');
     $di->set("{$entity}Store", $di->lazyNew($storeImplementation, [
-        'repo' => $di->lazyNew($repositoryImplementation)
+        'repo' => $di->lazyNew($repositoryImplementation, [
+            'em' => $di->lazyGet('EntityManager')
+        ])
     ]));
 }
 
