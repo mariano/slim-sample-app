@@ -9,23 +9,39 @@ $di->setAutoResolve(false);
 
 $di->set('settings', $di->lazyRequire(ROOT_APP . '/config.php'));
 
-// Data stores
+// Data stores & repositories
 
 foreach ([
-    'UserStore' => Data\Store\UserStore::class
-] as $storeInterface => $storeImplementation) {
-    $di->set($storeInterface, $di->lazyNew($storeImplementation));
-    $di->params[$storeImplementation]['repo'] = $di->lazyGet('UserRepository');
-}
+    'User' => [
+        Data\Store\UserStore::class,
+        Infrastructure\Data\Doctrine\Repository\UserRepository::class
+    ]
+] as $entity => $store) {
+    list($storeImplementation, $repositoryImplementation) = $store;
 
-// Data repositories
-
-foreach ([
-    'UserRepository' => Infrastructure\Data\Doctrine\Repository\UserRepository::class
-] as $repositoryInterface => $repositoryImplementation) {
+    $repositoryKey = "{$entity}Repository";
     $di->params[$repositoryImplementation]['em'] = $di->lazyGet('EntityManager');
-    $di->set($repositoryInterface, $di->lazyNew($repositoryImplementation));
+    $di->set($repositoryKey, $di->lazyNew($repositoryImplementation));
+
+    $storeKey = "{$entity}Store";
+    $di->params[$storeImplementation]['repo'] = $di->lazyGet($repositoryKey);
+    $di->set($storeKey, $di->lazyNew($storeImplementation));
 }
+
+// Controllers
+
+foreach ([
+    Controller\Auth::class => [
+        'store' => 'UserStore'
+    ]
+] as $controllerImplementation => $params) {
+    foreach ($params as $param => $key) {
+        $di->params[$controllerImplementation][$param] = $di->lazyGet($key);
+    }
+}
+
+$di->setter[Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet('ViewRenderer');
+$di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet('settings');
 
 // Doctrine
 
@@ -34,13 +50,6 @@ $di->set('EntityManager', $di->lazy(function () use ($di) {
     $createEntityManager = require_once(ROOT_APP . '/Infrastructure/Data/Doctrine/bootstrap.php');
     return $createEntityManager($settings['db']);
 }));
-
-// Controllers
-
-$di->setter[Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet('ViewRenderer');
-$di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet('settings');
-
-$di->params[Controller\Auth::class]['store'] = $di->lazyGet('UserStore');
 
 // View
 
