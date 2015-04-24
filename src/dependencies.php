@@ -9,7 +9,13 @@ $di->setAutoResolve(false);
 
 $di->set('settings', $di->lazyRequire(ROOT_APP . '/config.php'));
 
-// Data stores & repositories
+// Data
+
+$di->set('EntityManager', $di->lazy(function () use ($di) {
+    $settings = $di->get('settings');
+    $createEntityManager = require_once(ROOT_APP . '/Infrastructure/Data/Doctrine/bootstrap.php');
+    return $createEntityManager($settings['db']);
+}));
 
 foreach ([
     'User' => [
@@ -42,14 +48,6 @@ foreach ([
 
 $di->setter[Controller\ControllerInterface::class]['setRenderer'] = $di->lazyGet('ViewRenderer');
 $di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet('settings');
-
-// Doctrine
-
-$di->set('EntityManager', $di->lazy(function () use ($di) {
-    $settings = $di->get('settings');
-    $createEntityManager = require_once(ROOT_APP . '/Infrastructure/Data/Doctrine/bootstrap.php');
-    return $createEntityManager($settings['db']);
-}));
 
 // View
 
