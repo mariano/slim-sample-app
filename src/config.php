@@ -3,8 +3,11 @@ use Dotenv\Dotenv;
 
 $dotenv = new Dotenv();
 $dotenv->load(ROOT);
+$dotenv->required(['TIMEZONE'])->notEmpty();
 $dotenv->required(['DB_DRIVER', 'DB_HOST', 'DB_USER', 'DB_DATABASE'])->notEmpty();
 $dotenv->required(['DB_PASSWORD']);
+
+date_default_timezone_set($dotenv->get('TIMEZONE'));
 
 return [
     'db' => [

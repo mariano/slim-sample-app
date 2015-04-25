@@ -1,0 +1,29 @@
+<phpunit bootstrap="tests/bootstrap.php"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    stopOnFailure="false"
+    backupGlobals="false">
+
+    <testsuites>
+        <testsuite name="Data">
+            <directory suffix="Test.php">tests/Data/</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
+
+    <!--
+    <logging>
+    <log type="coverage-html" target="/tmp/logs/codeCoverage" charset="UTF-8"
+      yui="true" highlight="true"
+      lowUpperBound="50" highLowerBound="80"/>
+    <log type="testdox-html" target="/tmp/logs/testdox.html" />
+    </logging>
+    -->
+</phpunit>

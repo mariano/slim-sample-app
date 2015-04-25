@@ -9,6 +9,8 @@ class User extends BaseUser implements UserInterface
 {
     public static function loadMetadata(ClassMetadata $metadata)
     {
+        $metadata->setTableName('users');
+
         $metadata->mapField([
             'id' => true,
             'fieldName' => 'id',
@@ -25,8 +27,28 @@ class User extends BaseUser implements UserInterface
         ]);
 
         $metadata->mapField([
+            'fieldName' => 'firstName',
+            'columnName' => 'first_name',
+            'type' => 'string',
+            'nullable' => false
+        ]);
+
+        $metadata->mapField([
+            'fieldName' => 'lastName',
+            'columnName' => 'last_name',
+            'type' => 'string',
+            'nullable' => false
+        ]);
+
+        $metadata->mapField([
             'fieldName' => 'password',
             'type' => 'text',
+            'nullable' => true
+        ]);
+
+        $metadata->mapField([
+            'fieldName' => 'created',
+            'type' => 'datetime',
             'nullable' => false
         ]);
     }

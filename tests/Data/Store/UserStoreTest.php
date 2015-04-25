@@ -1,5 +1,8 @@
 <?php
+namespace Test\Data\Store;
+
 use Mockery as m;
+use PHPUnit_Framework_TestCase;
 use Data\Entity\UserInterface;
 use Data\Entity\User;
 use Data\Store\Exception\InvalidLoginException;
