@@ -6,6 +6,7 @@ $dotenv->load(ROOT);
 $dotenv->required(['TIMEZONE'])->notEmpty();
 $dotenv->required(['DB_DRIVER', 'DB_HOST', 'DB_USER', 'DB_DATABASE'])->notEmpty();
 $dotenv->required(['DB_PASSWORD']);
+$dotenv->required(['FB_APP_ID', 'FB_APP_SECRET'])->notEmpty();
 
 date_default_timezone_set($dotenv->get('TIMEZONE'));
 
@@ -22,5 +23,9 @@ return [
         'debug' => ($dotenv->get('VIEW_DEBUG') ? true : false),
         'cache' => ROOT . '/cache',
         'templates' => ROOT . '/templates'
+    ],
+    'fb' => [
+        'id' => $dotenv->get('FB_APP_ID'),
+        'secret' => $dotenv->get('FB_APP_SECRET')
     ]
 ];

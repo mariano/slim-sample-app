@@ -1,6 +1,8 @@
 <?php
 namespace Controller;
 
+use Hybrid_Auth;
+use Hybrid_Endpoint;
 use Data\Store\UserStoreInterface;
 use View\View;
 
@@ -13,9 +15,12 @@ class Auth extends BaseController
      */
     protected $store;
 
-    public function __construct(UserStoreInterface $store)
+    protected $hybridAuth;
+
+    public function __construct(UserStoreInterface $store, Hybrid_Auth $hybridAuth)
     {
         $this->store = $store;
+        $this->hybridAuth = $hybridAuth;
     }
 
     public function loginAction(array $args)
@@ -28,5 +33,21 @@ class Auth extends BaseController
         var_dump($this->request->getParsedBody());
         var_dump($this->store->getByLogin('email', 'password'));
         exit;
+    }
+
+    public function loginSocialAction()
+    {
+        $this->hybridAuth->authenticate('Facebook', [
+        ]);
+    }
+
+    public function endpointAction()
+    {
+        Hybrid_Endpoint::process();
+    }
+
+    public function logoutAction()
+    {
+        $this->hybridAuth->logoutAllProviders();
     }
 }
