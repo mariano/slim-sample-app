@@ -5,8 +5,18 @@ use DateTime;
 use InvalidArgumentException;
 use Mockery as m;
 use PHPUnit_Framework_TestCase;
+use RandomLib\Factory;
+use SecurityLib\Strength;
 use Data\Entity\UserInterface;
 use Data\Entity\User;
+
+class MockUser extends User
+{
+    public function getPassword()
+    {
+        return $this->password;
+    }
+}
 
 class UserTest extends PHPUnit_Framework_TestCase
 {
@@ -45,6 +55,24 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
     }
 
+    public function testSetPasswordHash()
+    {
+        $entity = new MockUser();
+        $entity->setPassword('password');
+        $result = $entity->getPassword();
+        $this->assertNotEquals('password', $result);
+    }
+
+    public function testSetPasswordHashLong()
+    {
+        $generator = (new Factory())->getGenerator(new Strength(Strength::MEDIUM));
+        $password = $generator->generateString(512);
+        $entity = new MockUser();
+        $entity->setPassword($password);
+        $result = $entity->getPassword();
+        $this->assertNotEquals($password, $result);
+    }
+
     public function testSetPasswordNoMatchNull()
     {
         $entity = new User();
@@ -69,12 +97,14 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
     }
 
-    public function testSetPasswordNotOld()
+    public function testSetPasswordMatchLong()
     {
-        $entity = new User();
-        $entity->setPassword('password');
-        $result = $entity->isPasswordOld();
-        $this->assertFalse($result);
+        $generator = (new Factory())->getGenerator(new Strength(Strength::MEDIUM));
+        $password = $generator->generateString(512);
+        $entity = new MockUser();
+        $entity->setPassword($password);
+        $result = $entity->checkPassword($password);
+        $this->assertTrue($result);
     }
 
     public function testSetEmailEmpty()

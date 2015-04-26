@@ -14,7 +14,6 @@ interface UserInterface
     public function isPasswordSet();
     public function setPassword($password);
     public function checkPassword($password);
-    public function isPasswordOld();
     public function getCountry();
     public function setCountry($country);
     public function getCreated();

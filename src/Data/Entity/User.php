@@ -93,6 +93,7 @@ class User implements UserInterface
     final public function setPassword($password = null)
     {
         if (!is_null($password)) {
+            $password = base64_encode(hash('sha256', $password, true));
             $this->password = password_hash($password, static::PASSWORD_ALGORITHM);
         } else {
             $this->password = $password;
@@ -101,12 +102,11 @@ class User implements UserInterface
 
     final public function checkPassword($password)
     {
-        return ($this->isPasswordSet() && password_verify($password, $this->password));
-    }
-
-    final public function isPasswordOld()
-    {
-        return ($this->isPasswordSet() && password_needs_rehash($this->password, static::PASSWORD_ALGORITHM));
+        if (!$this->isPasswordSet()) {
+            return false;
+        }
+        $password = base64_encode(hash('sha256', $password, true));
+        return password_verify($password, $this->password);
     }
 
     public function getCountry()
