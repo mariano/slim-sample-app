@@ -37,7 +37,9 @@ class Auth extends BaseController
 
     public function loginSocialAction()
     {
+        $redirectUrl = '/hello/world';
         $this->hybridAuth->authenticate('Facebook', [
+            'hauth_return_to' => $redirectUrl
         ]);
     }
 

@@ -22,9 +22,9 @@ $di->set('HybridAuth', $di->lazy(function () use ($di) {
                     'secret' => $settings['fb']['secret']
                 ],
                 'scope' => implode(',', [
-                    'email'
+                    'email', 'public_profile'
                 ]),
-                'display' => 'popup'
+                'display' => 'page'
             ]
         ]
     ]);
@@ -55,6 +55,7 @@ $app->get('/hello/{name}', 'Hello:hello')->setName('hello');
 $app->get('/login', 'Auth:login')->setName('login');
 $app->get('/login/social', 'Auth:loginSocial')->setName('loginSocial');
 $app->get('/login/social/endpoint', 'Auth:endpoint');
+$app->get('/logout', 'Auth:logout');
 $app->post('/login', 'Auth:doLogin');
 
 // Run application
