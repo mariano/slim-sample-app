@@ -33,14 +33,14 @@
 namespace View\Twig;
 
 use Slim\Http\Uri;
-use Slim\Router;
+use Slim\Interfaces\RouterInterface;
 
 class Extension extends \Twig_Extension
 {
     private $baseUri;
     private $router;
 
-    public function __construct(Uri $uri, Router $router)
+    public function __construct(Uri $uri, RouterInterface $router)
     {
         $scheme = $uri->getScheme();
         $authority = $uri->getAuthority();

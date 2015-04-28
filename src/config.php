@@ -6,7 +6,8 @@ $dotenv->load(ROOT);
 $dotenv->required(['TIMEZONE'])->notEmpty();
 $dotenv->required(['DB_DRIVER', 'DB_HOST', 'DB_USER', 'DB_DATABASE'])->notEmpty();
 $dotenv->required(['DB_PASSWORD']);
-$dotenv->required(['FB_APP_ID', 'FB_APP_SECRET'])->notEmpty();
+$dotenv->required(['FACEBOOK_APP_ID', 'FACEBOOK_APP_SECRET'])->notEmpty();
+$dotenv->required(['GOOGLE_APP_ID', 'GOOGLE_APP_SECRET'])->notEmpty();
 
 date_default_timezone_set($dotenv->get('TIMEZONE'));
 
@@ -24,8 +25,12 @@ return [
         'cache' => ROOT . '/cache',
         'templates' => ROOT . '/templates'
     ],
-    'fb' => [
-        'id' => $dotenv->get('FB_APP_ID'),
-        'secret' => $dotenv->get('FB_APP_SECRET')
-    ]
+    'facebook' => [
+        'id' => $dotenv->get('FACEBOOK_APP_ID'),
+        'secret' => $dotenv->get('FACEBOOK_APP_SECRET')
+    ],
+    'google' => [
+        'id' => $dotenv->get('GOOGLE_APP_ID'),
+        'secret' => $dotenv->get('GOOGLE_APP_SECRET')
+    ],
 ];
