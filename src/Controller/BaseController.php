@@ -82,6 +82,7 @@ abstract class BaseController implements ControllerInterface
 
             $result = $this->{$method}(...array_slice($arguments, 2));
             $response = ($result instanceof ResponseInterface ? $result : $this->response);
+
             if (is_string($result)) {
                 $response->write($result);
             } elseif ($result instanceof ViewInterface) {
@@ -95,5 +96,20 @@ abstract class BaseController implements ControllerInterface
         }
 
         throw new BadMethodCallException();
+    }
+
+    /**
+     * Redirect
+     *
+     * This method prepares the response object to return an HTTP Redirect response
+     * to the client.
+     *
+     * @param  string $url    The redirect destination
+     * @param  int    $status The redirect HTTP status code
+     */
+    public function redirect($url, $status = 302)
+    {
+        $this->response = $this->response->withStatus($status)
+            ->withHeader('Location', $url);
     }
 }

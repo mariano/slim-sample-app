@@ -25,7 +25,7 @@ $di->set('HybridAuth', $di->lazy(function () use ($di) {
                     'email', 'public_profile'
                 ]),
                 'display' => 'page'
-            ]
+            ],
         ]
     ]);
     return $hybridAuth;
@@ -53,8 +53,8 @@ $app['Hello'] = function (App $app) use ($di) {
 
 $app->get('/hello/{name}', 'Hello:hello')->setName('hello');
 $app->get('/login', 'Auth:login')->setName('login');
-$app->get('/login/social', 'Auth:loginSocial')->setName('loginSocial');
 $app->get('/login/social/endpoint', 'Auth:endpoint');
+$app->get('/login/{provider}', 'Auth:loginSocial')->setName('loginSocial');
 $app->get('/logout', 'Auth:logout');
 $app->post('/login', 'Auth:doLogin');
 

@@ -3,6 +3,7 @@ namespace Controller;
 
 use Hybrid_Auth;
 use Hybrid_Endpoint;
+use Controller\Exception\InvalidUriException;
 use Data\Store\UserStoreInterface;
 use View\View;
 
@@ -15,8 +16,19 @@ class Auth extends BaseController
      */
     protected $store;
 
+    /**
+     * HybridAuth instance
+     *
+     * @var Hybrid_Auth
+     */
     protected $hybridAuth;
 
+    /**
+     * Create
+     *
+     * @param UserStoreInterface $store User store
+     * @param Hybrid_Auth $hybridAuth HybridAuth for social logins
+     */
     public function __construct(UserStoreInterface $store, Hybrid_Auth $hybridAuth)
     {
         $this->store = $store;
@@ -35,10 +47,23 @@ class Auth extends BaseController
         exit;
     }
 
-    public function loginSocialAction()
+    public function loginSocialAction(array $args)
     {
-        $redirectUrl = '/hello/world';
-        $this->hybridAuth->authenticate('Facebook', [
+        $enabledProviders = array_keys($this->hybridAuth->getProviders());
+        $providers = array_combine(array_map('strtolower', $enabledProviders), $enabledProviders);
+        if (empty($args['provider']) || !isset($providers[$args['provider']])) {
+            throw new InvalidUriException($this->request->getUri());
+        }
+
+        $redirectUrl = $this->getLoggedInURL();
+        $provider = $providers[$args['provider']];
+
+        if ($this->hybridAuth->isConnectedWith($provider)) {
+            $this->redirect($redirectUrl, 307);
+            return;
+        }
+
+        $this->hybridAuth->authenticate($providers[$args['provider']], [
             'hauth_return_to' => $redirectUrl
         ]);
     }
@@ -51,5 +76,10 @@ class Auth extends BaseController
     public function logoutAction()
     {
         $this->hybridAuth->logoutAllProviders();
+    }
+
+    protected function getLoggedInURL()
+    {
+        return '/hello/world';
     }
 }
