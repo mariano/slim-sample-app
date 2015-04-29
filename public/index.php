@@ -12,7 +12,10 @@ $di->set(App::class, $app);
 
 $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
     $uri = $app['request']->getUri();
-    $endpointUri = $uri->withBasePath(ltrim($uri->getBasePath(), '/'))->withPath($app['router']->urlFor('loginSocialEndpoint'))->withQuery('')->withFragment('');
+    $endpointUri = $uri->withBasePath(ltrim($uri->getBasePath(), '/'))
+        ->withPath($app['router']->urlFor('loginSocialEndpoint'))
+        ->withQuery('')
+        ->withFragment('');
     $settings = $di->get('settings');
     $hybridAuth = new Hybrid_Auth([
         'base_url' => (string) $endpointUri,
@@ -25,7 +28,8 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
                 ],
                 'scope' => implode(',', [
                     'email',
-                    'public_profile'
+                    'public_profile',
+                    'user_hometown'
                 ]),
                 'display' => 'page'
             ],

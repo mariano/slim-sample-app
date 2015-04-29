@@ -47,6 +47,11 @@ class Auth extends BaseController
         exit;
     }
 
+    /**
+     * Perform a social login
+     *
+     * @return Psr\Http\Message\ResponseInterface|null A redirect response, or null
+     */
     public function loginSocialAction(array $args)
     {
         $enabledProviders = array_keys($this->hybridAuth->getProviders());
@@ -59,8 +64,7 @@ class Auth extends BaseController
         $provider = $providers[$args['provider']];
 
         if ($this->hybridAuth->isConnectedWith($provider)) {
-            $this->redirect($redirectUrl, 307);
-            return;
+            return $this->redirect($redirectUrl, 307);
         }
 
         $this->hybridAuth->authenticate($providers[$args['provider']], [
@@ -68,16 +72,27 @@ class Auth extends BaseController
         ]);
     }
 
+    /**
+     * Process social login callbacks
+     */
     public function endpointAction()
     {
         Hybrid_Endpoint::process();
     }
 
+    /**
+     * Logout user (including from social networks)
+     */
     public function logoutAction()
     {
         $this->hybridAuth->logoutAllProviders();
     }
 
+    /**
+     * Get URL user should be redirected to when logged in
+     *
+     * @return string
+     */
     protected function getLoggedInURL()
     {
         return '/hello/world';

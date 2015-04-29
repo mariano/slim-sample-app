@@ -226,4 +226,33 @@ class UserTest extends PHPUnit_Framework_TestCase
         $result = $entity->getCountry();
         $this->assertSame('AR', $result);
     }
+
+    public function testSetLocaleEmpty()
+    {
+        $this->setExpectedException(InvalidArgumentException::class, 'Locale cannot be empty');
+        $entity = new User();
+        $entity->setLocale('');
+    }
+
+    public function testSetLocaleSpaces()
+    {
+        $this->setExpectedException(InvalidArgumentException::class, 'Locale cannot be empty');
+        $entity = new User();
+        $entity->setLocale('   ');
+    }
+
+    public function testSetLocaleInvalid()
+    {
+        $this->setExpectedException(InvalidArgumentException::class, 'Invalid locale specified: en');
+        $entity = new User();
+        $entity->setLocale('en');
+    }
+
+    public function testLocale()
+    {
+        $entity = new User();
+        $entity->setLocale('en_US');
+        $result = $entity->getLocale();
+        $this->assertSame('en_US', $result);
+    }
 }

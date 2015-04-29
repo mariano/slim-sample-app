@@ -16,5 +16,7 @@ interface UserInterface
     public function checkPassword($password);
     public function getCountry();
     public function setCountry($country);
+    public function getLocale();
+    public function setLocale($locale);
     public function getCreated();
 }

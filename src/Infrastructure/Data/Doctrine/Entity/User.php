@@ -47,6 +47,24 @@ class User extends BaseUser implements UserInterface
         ]);
 
         $metadata->mapField([
+            'fieldName' => 'country',
+            'type' => 'string',
+            'nullable' => false,
+            'options' => [
+                'length' => 2
+            ]
+        ]);
+
+        $metadata->mapField([
+            'fieldName' => 'locale',
+            'type' => 'string',
+            'nullable' => false,
+            'options' => [
+                'length' => 5
+            ]
+        ]);
+
+        $metadata->mapField([
             'fieldName' => 'created',
             'type' => 'datetime',
             'nullable' => false

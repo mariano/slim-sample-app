@@ -21,6 +21,8 @@ class User implements UserInterface
 
     protected $country;
 
+    protected $locale;
+
     protected $created;
 
     public function __construct()
@@ -122,6 +124,21 @@ class User implements UserInterface
             throw new InvalidArgumentException("Invalid country code specified: {$country}");
         }
         $this->country = $country;
+    }
+
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    public function setLocale($locale)
+    {
+        if (trim($locale) === '') {
+            throw new InvalidArgumentException("Locale cannot be empty");
+        } elseif (strlen($locale) !== 5) {
+            throw new InvalidArgumentException("Invalid locale specified: {$locale}");
+        }
+        $this->locale = $locale;
     }
 
     public function getCreated()
