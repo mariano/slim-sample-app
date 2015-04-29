@@ -12,10 +12,14 @@ $di->set(App::class, $app);
 
 $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
     $uri = $app['request']->getUri();
-    $endpointUri = $uri->withBasePath(ltrim($uri->getBasePath(), '/'))
-        ->withPath($app['router']->urlFor('loginSocialEndpoint'))
-        ->withQuery('')
-        ->withFragment('');
+    $endpointUri = new \Slim\Http\Uri(
+        $uri->getScheme(),
+        $uri->getHost(),
+        $uri->getPort(),
+        $app['router']->urlFor('loginSocialEndpoint')
+    );
+    $endpointUri = $endpointUri->withBasePath(ltrim($uri->getBasePath(), '/'));
+
     $settings = $di->get('settings');
     $hybridAuth = new Hybrid_Auth([
         'base_url' => (string) $endpointUri,
@@ -44,7 +48,7 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
                     'https://www.googleapis.com/auth/userinfo.profile'
                 ]),
                 'access_type' => 'online',
-                'approve_prompt' => 'auto'
+                'approve_prompt' => 'force'
             ]
         ]
     ]);
@@ -69,7 +73,12 @@ $app['Hello'] = function (App $app) use ($di) {
     echo 'GOOGLE:<hr />';
     var_dump($hybridAuth->isConnectedWith('Google'));
     $google = $hybridAuth->authenticate('Google');
-    var_dump($google->getUserProfile());
+    try {
+        var_dump($google->getUserProfile());
+    } catch(\Exception $e) {
+        echo $e->getMessage();
+        var_dump($e);
+    }
     exit;
     return $di->newInstance(Controller\Hello::class);
 };
