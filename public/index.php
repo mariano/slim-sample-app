@@ -21,37 +21,43 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
     $endpointUri = $endpointUri->withBasePath(ltrim($uri->getBasePath(), '/'));
 
     $settings = $di->get('settings');
-    $hybridAuth = new Hybrid_Auth([
-        'base_url' => (string) $endpointUri,
-        'providers' => [
-            'Facebook' => [
-                'enabled' => true,
-                'keys' => [
-                    'id' => $settings['facebook']['id'],
-                    'secret' => $settings['facebook']['secret']
+    try {
+        $hybridAuth = new Hybrid_Auth([
+            'base_url' => (string) $endpointUri,
+            'providers' => [
+                'Facebook' => [
+                    'enabled' => true,
+                    'keys' => [
+                        'id' => $settings['facebook']['id'],
+                        'secret' => $settings['facebook']['secret']
+                    ],
+                    'scope' => implode(',', [
+                        'email',
+                        'public_profile',
+                        'user_hometown'
+                    ]),
+                    'display' => 'page'
                 ],
-                'scope' => implode(',', [
-                    'email',
-                    'public_profile',
-                    'user_hometown'
-                ]),
-                'display' => 'page'
-            ],
-            'Google' => [
-                'enabled' => true,
-                'keys' => [
-                    'id' => $settings['google']['id'],
-                    'secret' => $settings['google']['secret']
-                ],
-                'scope' => implode(' ', [
-                    'https://www.googleapis.com/auth/userinfo.email',
-                    'https://www.googleapis.com/auth/userinfo.profile'
-                ]),
-                'access_type' => 'online',
-                'approve_prompt' => 'force'
+                'Google' => [
+                    'enabled' => true,
+                    'keys' => [
+                        'id' => $settings['google']['id'],
+                        'secret' => $settings['google']['secret']
+                    ],
+                    'scope' => implode(' ', [
+                        'https://www.googleapis.com/auth/userinfo.email',
+                        'https://www.googleapis.com/auth/userinfo.profile'
+                    ]),
+                    'access_type' => 'online',
+                    'approve_prompt' => 'force'
+                ]
             ]
-        ]
-    ]);
+        ]);
+    } catch (\Exception $e) {
+        // We could be here because of a User rejecting permission
+        $app->stop($app['response']->withRedirect($app['router']->urlFor('login'), 307));
+        return null;
+    }
     return $hybridAuth;
 }));
 

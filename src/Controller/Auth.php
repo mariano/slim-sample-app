@@ -60,16 +60,21 @@ class Auth extends BaseController
             throw new InvalidUriException($this->request->getUri());
         }
 
-        $redirectUrl = $this->getLoggedInURL();
-        $provider = $providers[$args['provider']];
-
-        if ($this->hybridAuth->isConnectedWith($provider)) {
-            return $this->redirect($redirectUrl, 307);
+        $adapter = $this->hybridAuth->authenticate($providers[$args['provider']]);
+        $profile = $adapter->getUserProfile();
+        if (empty($profile)) {
+            echo 'EMPTY!'; exit;
+            return $this->redirect($this->getLoginURL());
         }
 
-        $this->hybridAuth->authenticate($providers[$args['provider']], [
-            'hauth_return_to' => $redirectUrl
-        ]);
+        echo 'SOCIAL PROFILE:';
+        var_dump($profile);
+        $user = $this->store->getBySocialAccount($args['provider'], $profile);
+        echo 'USER:';
+        var_dump($user);
+        exit;
+
+        return $this->redirect($this->getLoggedInURL());
     }
 
     /**
@@ -86,6 +91,16 @@ class Auth extends BaseController
     public function logoutAction()
     {
         $this->hybridAuth->logoutAllProviders();
+    }
+
+    /**
+     * Get URL user should be redirected to when they need to log in
+     *
+     * @return string
+     */
+    protected function getLoginURL()
+    {
+        return '/login';
     }
 
     /**

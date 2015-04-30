@@ -3,70 +3,61 @@ namespace Infrastructure\Data\Doctrine\Entity;
 
 use Data\Entity\UserInterface;
 use Data\Entity\User as BaseUser;
+use Infrastructure\Data\Doctrine\ArrayCollection;
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\Builder\ClassMetadataBuilder;
 
 class User extends BaseUser implements UserInterface
 {
+    public function __construct()
+    {
+        $this->socialAccounts = new ArrayCollection();
+        parent::__construct();
+    }
+
     public static function loadMetadata(ClassMetadata $metadata)
     {
-        $metadata->setTableName('users');
+        $builder = new ClassMetadataBuilder($metadata);
+        $builder->setTable('users');
 
-        $metadata->mapField([
-            'id' => true,
-            'fieldName' => 'id',
-            'type' => 'integer'
+        $builder->addField('id', 'integer', [
+            'id' => true
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'email',
-            'type' => 'string',
+        $builder->addField('email', 'string', [
             'nullable' => false,
-            'options' => [
-                'unique' => true
-            ]
+            'options' => ['unique' => true]
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'firstName',
+        $builder->addField('firstName', 'string', [
             'columnName' => 'first_name',
-            'type' => 'string',
             'nullable' => false
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'lastName',
+        $builder->addField('lastName', 'string', [
             'columnName' => 'last_name',
-            'type' => 'string',
             'nullable' => false
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'password',
-            'type' => 'text',
+        $builder->addField('password', 'text', [
             'nullable' => true
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'country',
-            'type' => 'string',
+        $builder->addField('country', 'string', [
             'nullable' => false,
-            'options' => [
-                'length' => 2
-            ]
+            'options' => ['length' => 2]
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'locale',
-            'type' => 'string',
+        $builder->addField('locale', 'string', [
             'nullable' => false,
-            'options' => [
-                'length' => 5
-            ]
+            'options' => ['length' => 5]
         ]);
 
-        $metadata->mapField([
-            'fieldName' => 'created',
-            'type' => 'datetime',
+        $builder->addField('verified', 'datetime', [
+            'nullable' => true
+        ]);
+
+        $builder->addField('created', 'datetime', [
             'nullable' => false
         ]);
     }

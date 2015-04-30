@@ -1,6 +1,8 @@
 <?php
 namespace Data\Entity;
 
+use DateTime;
+
 interface UserInterface
 {
     public function getId();
@@ -18,5 +20,8 @@ interface UserInterface
     public function setCountry($country);
     public function getLocale();
     public function setLocale($locale);
+    public function setVerified(DateTime $verified);
+    public function isVerified();
     public function getCreated();
+    public function addSocialAccount(SocialAccountInterface $socialAccount);
 }

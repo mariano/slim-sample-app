@@ -7,6 +7,7 @@ use Mockery as m;
 use PHPUnit_Framework_TestCase;
 use RandomLib\Factory;
 use SecurityLib\Strength;
+use Data\Entity\SocialAccount;
 use Data\Entity\UserInterface;
 use Data\Entity\User;
 
@@ -15,6 +16,11 @@ class MockUser extends User
     public function getPassword()
     {
         return $this->password;
+    }
+
+    public function getSocialAccounts()
+    {
+        return $this->socialAccounts;
     }
 }
 
@@ -254,5 +260,59 @@ class UserTest extends PHPUnit_Framework_TestCase
         $entity->setLocale('en_US');
         $result = $entity->getLocale();
         $this->assertSame('en_US', $result);
+    }
+
+    public function testVerifiedNotSet()
+    {
+        $entity = new User();
+        $result = $entity->isVerified();
+        $this->assertFalse($result);
+    }
+
+    public function testVerifiedSet()
+    {
+        $entity = new User();
+        $entity->setVerified(new DateTime());
+        $result = $entity->isVerified();
+        $this->assertTrue($result);
+    }
+
+    public function testSocialAccountsEmpty()
+    {
+        $entity = new MockUser();
+        $result = $entity->getSocialAccounts()->isEmpty();
+        $this->assertTrue($result);
+    }
+
+    public function testSocialAccountsEmptyArray()
+    {
+        $entity = new MockUser();
+        $result = count($entity->getSocialAccounts()->toArray());
+        $this->assertSame(0, $result);
+    }
+
+    public function testSocialAccountsAddNotEmpty()
+    {
+        $entity = new MockUser();
+        $entity->addSocialAccount(new SocialAccount());
+        $result = $entity->getSocialAccounts()->isEmpty();
+        $this->assertFalse($result);
+    }
+
+    public function testSocialAccountsAddNotEmptyArray()
+    {
+        $entity = new MockUser();
+        $entity->addSocialAccount(new SocialAccount());
+        $result = count($entity->getSocialAccounts()->toArray());
+        $this->assertSame(1, $result);
+    }
+
+    public function testSocialAccountsAddSameInstance()
+    {
+        $socialAccount = new SocialAccount();
+        $entity = new MockUser();
+        $entity->addSocialAccount($socialAccount);
+        $result = $entity->getSocialAccounts()->toArray();
+        $this->assertSame($socialAccount, $result[0]);
     }
 }

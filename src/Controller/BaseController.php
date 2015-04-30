@@ -108,7 +108,7 @@ abstract class BaseController implements ControllerInterface
      * @param  int    $status The redirect HTTP status code
      * @return ResponseInterface Response
      */
-    public function redirect($url, $status = 302)
+    public function redirect($url, $status = 307)
     {
         return $this->response->withStatus($status)
             ->withHeader('Location', $url);

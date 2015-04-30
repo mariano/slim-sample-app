@@ -3,7 +3,8 @@ namespace Data\Entity;
 
 use DateTime;
 use InvalidArgumentException;
-use Data\Entity\UserInterface;
+use Data\CollectionInterface;
+use Data\ArrayCollection;
 
 class User implements UserInterface
 {
@@ -23,11 +24,24 @@ class User implements UserInterface
 
     protected $locale;
 
+    protected $verified = null;
+
+    /**
+     * CollectionInterface of SocialAccountInterface
+     *
+     * @var CollectionInterface<SocialAccountInterface>
+     */
+    protected $socialAccounts;
+
     protected $created;
 
     public function __construct()
     {
         $this->created = new DateTime();
+
+        if (!isset($this->socialAccounts)) {
+            $this->socialAccounts = new ArrayCollection();
+        }
     }
 
     public function getId()
@@ -139,6 +153,21 @@ class User implements UserInterface
             throw new InvalidArgumentException("Invalid locale specified: {$locale}");
         }
         $this->locale = $locale;
+    }
+
+    public function setVerified(DateTime $verified)
+    {
+        $this->verified = $verified;
+    }
+
+    public function isVerified()
+    {
+        return isset($this->verified);
+    }
+
+    public function addSocialAccount(SocialAccountInterface $socialAccount)
+    {
+        $this->socialAccounts->add($socialAccount);
     }
 
     public function getCreated()

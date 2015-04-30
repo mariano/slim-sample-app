@@ -39,4 +39,25 @@ class UserStore implements UserStoreInterface
         }
         return $user;
     }
+
+    /**
+     * Get/Create a User out of a SocialAccountInterface
+     *
+     * @param string $type SocialAccountInterface type
+     * @param array $data SocialAccount data (should at least contain identifier)
+     * @return User
+     */
+    public function getBySocialAccount($type, array $data)
+    {
+        if (empty($data['identifier'])) {
+            throw new InvalidLoginException('Missing required data from Social account');
+        }
+
+        $user = $this->repo->findOneBySocialAccount($type, $data['identifier']);
+        if (isset($user)) {
+            return $user;
+        }
+
+        return $this->repo->addBySocialAccount($type, $data);
+    }
 }
