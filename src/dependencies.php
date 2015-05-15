@@ -50,4 +50,18 @@ $di->set('ViewRenderer', $di->lazy(function () use($di) {
     return $view;
 }));
 
+// Job queue
+
+$di->set('queue', $di->lazy(function () use($di) {
+    $settings = $di->get('settings');
+    $settings['job'] += [
+        'servers' => ''
+    ];
+    $servers = array_map('trim', explode(',', $settings['job']['servers']));
+    if (empty($servers)) {
+        throw new InvalidArgumentException('No servers specified');
+    }
+    return new Disque\Client($servers);
+}));
+
 return $di;

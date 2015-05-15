@@ -8,6 +8,7 @@ $dotenv->required(['DB_DRIVER', 'DB_HOST', 'DB_USER', 'DB_DATABASE'])->notEmpty(
 $dotenv->required(['DB_PASSWORD']);
 $dotenv->required(['FACEBOOK_APP_ID', 'FACEBOOK_APP_SECRET'])->notEmpty();
 $dotenv->required(['GOOGLE_APP_ID', 'GOOGLE_APP_SECRET'])->notEmpty();
+$dotenv->required(['JOB_SERVERS'])->notEmpty();
 
 date_default_timezone_set($dotenv->get('TIMEZONE'));
 
@@ -33,4 +34,7 @@ return [
         'id' => $dotenv->get('GOOGLE_APP_ID'),
         'secret' => $dotenv->get('GOOGLE_APP_SECRET')
     ],
+    'job' => [
+        'servers' => $dotenv->get('JOB_SERVERS')
+    ]
 ];

@@ -71,6 +71,9 @@ $app['Auth'] = function (App $app) use ($di) {
 };
 
 $app['Hello'] = function (App $app) use ($di) {
+    $di->get('queue')->queue('emails')->push(new \Disque\Queue\Job(['test' => 'stuff']));
+    echo 'DONE';
+    exit;
     $hybridAuth = $di->get('HybridAuth');
     echo 'FACEBOOK:<hr />';
     var_dump($hybridAuth->isConnectedWith('Facebook'));

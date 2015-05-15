@@ -9,7 +9,9 @@
         "vlucas/phpdotenv": "2.x-dev",
         "aura/di": "2.*",
         "ircmaxell/random-lib": "~1.1",
-        "hybridauth/hybridauth": "~2.4"
+        "hybridauth/hybridauth": "~2.4",
+        "mariano/disque-php": "^1.2",
+        "symfony/console": "^2.6"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.6",

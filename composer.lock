@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "0b62dbe4eceeb7342dd33130a124610d",
+    "hash": "012b5da96e1235b1c4229100cebbbc88",
     "packages": [
         {
             "name": "aura/di",
@@ -806,6 +806,57 @@
             "time": "2013-04-30 18:00:34"
         },
         {
+            "name": "mariano/disque-php",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mariano/disque-php.git",
+                "reference": "86abcf6ea8bd7bc60761d9c0da28e6feaf1f3cfc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mariano/disque-php/zipball/86abcf6ea8bd7bc60761d9c0da28e6feaf1f3cfc",
+                "reference": "86abcf6ea8bd7bc60761d9c0da28e6feaf1f3cfc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~4.6",
+                "scrutinizer/ocular": "~1.1"
+            },
+            "suggest": {
+                "predis/predis": "Use Predis to handle the connection with Disque instead of the built in client"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Disque\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mariano Iglesias",
+                    "email": "mgiglesias@gmail.com",
+                    "homepage": "http://marianoiglesias.com.ar"
+                }
+            ],
+            "description": "PHP library for Disque, an in-memory, distributed job queue",
+            "homepage": "https://github.com/mariano/disque-php",
+            "keywords": [
+                "disque",
+                "job",
+                "queue"
+            ],
+            "time": "2015-05-14 18:28:27"
+        },
+        {
             "name": "nikic/fast-route",
             "version": "v0.4.0",
             "source": {
@@ -950,7 +1001,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/5774eef4d94de9c2455eb200c2c974f8eef27115",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/29c92746d008ea38fa183c195a08e9335f7a32b6",
                 "reference": "5774eef4d94de9c2455eb200c2c974f8eef27115",
                 "shasum": ""
             },
@@ -1007,17 +1058,17 @@
         },
         {
             "name": "symfony/console",
-            "version": "v2.6.6",
+            "version": "v2.6.7",
             "target-dir": "Symfony/Component/Console",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Console.git",
-                "reference": "5b91dc4ed5eb08553f57f6df04c4730a73992667"
+                "reference": "ebc5679854aa24ed7d65062e9e3ab0b18a917272"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/Console/zipball/5b91dc4ed5eb08553f57f6df04c4730a73992667",
-                "reference": "5b91dc4ed5eb08553f57f6df04c4730a73992667",
+                "url": "https://api.github.com/repos/symfony/Console/zipball/ebc5679854aa24ed7d65062e9e3ab0b18a917272",
+                "reference": "ebc5679854aa24ed7d65062e9e3ab0b18a917272",
                 "shasum": ""
             },
             "require": {
@@ -1051,17 +1102,17 @@
             ],
             "authors": [
                 {
-                    "name": "Symfony Community",
-                    "homepage": "http://symfony.com/contributors"
-                },
-                {
                     "name": "Fabien Potencier",
                     "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
                 }
             ],
             "description": "Symfony Console Component",
-            "homepage": "http://symfony.com",
-            "time": "2015-03-30 15:54:10"
+            "homepage": "https://symfony.com",
+            "time": "2015-05-02 15:18:45"
         },
         {
             "name": "twig/twig",
@@ -1130,7 +1181,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/1f8f213bd1d636814f696bc0bbd8f37b1a863498",
+                "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/0c89422fd3757284dd22e8c54eafdf3101ea6f6e",
                 "reference": "1f8f213bd1d636814f696bc0bbd8f37b1a863498",
                 "shasum": ""
             },
