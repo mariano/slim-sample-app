@@ -57,11 +57,18 @@ $di->set('queue', $di->lazy(function () use($di) {
     $settings['job'] += [
         'servers' => ''
     ];
-    $servers = array_map('trim', explode(',', $settings['job']['servers']));
-    if (empty($servers)) {
-        throw new InvalidArgumentException('No servers specified');
-    }
-    return new Disque\Client($servers);
+    return new Infrastructure\Queue\Queue(array_map('trim', explode(',', $settings['job']['servers'])));
+}));
+
+$di->set('addJob', $di->lazy(function () use ($di) {
+    $queue = $di->get('queue');
+    return function ($queueName, array $payload) use ($queue) {
+        $job = new Infrastructure\Queue\Job();
+        $job->setQueue($queueName);
+        $job->setBody($payload);
+
+        $queue->add($job);
+    };
 }));
 
 return $di;

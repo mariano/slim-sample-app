@@ -71,7 +71,9 @@ $app['Auth'] = function (App $app) use ($di) {
 };
 
 $app['Hello'] = function (App $app) use ($di) {
-    $di->get('queue')->queue('emails')->push(new \Disque\Queue\Job(['test' => 'stuff']));
+    //$di->get('queue')->add('emails', ['test' => 'stuff']);
+    $a = call_user_func($di->get('addJob'), 'emails', ['test' => 'stuff']);
+
     echo 'DONE';
     exit;
     $hybridAuth = $di->get('HybridAuth');

@@ -4,7 +4,7 @@ namespace Infrastructure\Console\Command\Worker;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use Disque\Client;
+use Queue\QueueInterface;
 use Disque\Queue\Job;
 use Disque\Queue\JobNotAvailableException;
 use Symfony\Component\Console\Command\Command;
@@ -15,15 +15,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class WorkerCommand extends Command
 {
-    private $client;
+    private $queue;
     private $limit = 0;
     private $allowJobs = true;
     protected $output;
 
-    public function __construct(Client $client)
+    public function __construct(QueueInterface $queue)
     {
         parent::__construct();
-        $this->client = $client;
+        $this->queue = $queue;
     }
 
     protected function configure()
@@ -76,23 +76,17 @@ abstract class WorkerCommand extends Command
 
         $jobs = 0;
         $queueName = $this->getQueueName();
-        $queue = $this->client->queue($queueName);
 
         $this->out("Waiting on {$queueName} jobs...");
         while ($this->allowJobs) {
-            $job = null;
-            try {
-                $job = $queue->pull(1000);
-            } catch (JobNotAvailableException $e) {
-                continue;
-            }
+            $job = $this->queue->get($queueName);
 
             $this->out("Got job #{$job->getId()}", OutputInterface::VERBOSITY_VERBOSE);
             $this->out("Job #{$job->getId()} body: " . json_encode($job->getBody()), OutputInterface::VERBOSITY_VERY_VERBOSE);
 
             try {
                 $this->work($job);
-                $queue->processed($job);
+                $this->queue->processed($queueName, $job);
                 $this->out("Finished processing job #{$job->getId()}", OutputInterface::VERBOSITY_VERBOSE);
             } catch (Exception $e) {
                 $this->out('ERROR ' . get_class($e) . ' while processing job: ' . $e->getMessage());
