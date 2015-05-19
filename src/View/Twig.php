@@ -2,9 +2,10 @@
 namespace View;
 
 use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 use Slim\Views\Twig as SlimTwig;
 
-class Twig implements RendererInterface
+class Twig implements RendererInterface, ServiceProviderInterface
 {
     /**
      * @var Slim\Views\Twig
@@ -19,10 +20,9 @@ class Twig implements RendererInterface
      * @param array $settings Twig settings
      * @param Slim\Views\Twig $twig Twig
      */
-    public function __construct(Container $container, $path, array $settings = [])
+    public function __construct($path, array $settings = [])
     {
         $this->twig = new SlimTwig($path, $settings);
-        $this->twig->register($container);
     }
 
     /**
@@ -37,5 +37,18 @@ class Twig implements RendererInterface
     public function render($template, array $data = null)
     {
         return $this->twig->fetch($template, $data);
+    }
+
+    /**
+     * Registers services on the given container.
+     *
+     * This method should only be used to configure services and parameters.
+     * It should not get services.
+     *
+     * @param Container $pimple An Container instance
+     */
+    public function register(Container $pimple)
+    {
+        $this->twig->register($pimple);
     }
 }

@@ -3,7 +3,7 @@
         "psr-4": { "": "src/" }
     },
     "require": {
-        "slim/slim": "dev-develop as 3.0.0",
+        "slim/slim": "dev-develop",
         "doctrine/orm": "^2.5",
         "vlucas/phpdotenv": "2.x-dev",
         "aura/di": "2.*",

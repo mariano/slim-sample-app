@@ -6,17 +6,19 @@ $di = require_once(__DIR__ . '/../src/bootstrap.php');
 // Create application
 
 $app = new App($di->get('settings'));
-$di->set(App::class, $app);
+$container = $app->getContainer();
+$di->set('container', $container);
 
 // Social integration
 
 $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
-    $uri = $app['request']->getUri();
+    $container = $app->getContainer();
+    $uri = $container['request']->getUri();
     $endpointUri = new \Slim\Http\Uri(
         $uri->getScheme(),
         $uri->getHost(),
         $uri->getPort(),
-        $app['router']->urlFor('loginSocialEndpoint')
+        $container['router']->urlFor('loginSocialEndpoint')
     );
     $endpointUri = $endpointUri->withBasePath(ltrim($uri->getBasePath(), '/'));
 
@@ -55,7 +57,7 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
         ]);
     } catch (\Exception $e) {
         // We could be here because of a User rejecting permission
-        $app->stop($app['response']->withRedirect($app['router']->urlFor('login'), 307));
+        $app->stop($container['response']->withRedirect($container['router']->urlFor('login'), 307));
         return null;
     }
     return $hybridAuth;
@@ -63,14 +65,14 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
 
 // Set up controllers
 
-$app['Auth'] = function (App $app) use ($di) {
+$container['Auth'] = function () use ($di) {
     return $di->newInstance(Controller\Auth::class, [
         'store' => $di->get('UserStore'),
         'hybridAuth' => $di->get('HybridAuth')
     ]);
 };
 
-$app['Hello'] = function (App $app) use ($di) {
+$container['Hello'] = function () use ($di) {
 	/*
     //$di->get('queue')->add('emails', ['test' => 'stuff']);
     $a = call_user_func($di->get('addJob'), 'emails', ['test' => 'stuff']);

@@ -40,8 +40,8 @@ $di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet
 
 $di->set('ViewRenderer', $di->lazy(function () use($di) {
     $settings = $di->get('settings');
-    $app = $di->get(Slim\App::class);
-    $view = new View\Twig($app, $settings['view']['templates'], $settings['view']);
+    $view = new View\Twig($settings['view']['templates'], $settings['view']);
+    $di->get('container')->register($view);
     return $view;
 }));
 
