@@ -41,12 +41,7 @@ $di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet
 $di->set('ViewRenderer', $di->lazy(function () use($di) {
     $settings = $di->get('settings');
     $app = $di->get(Slim\App::class);
-    $view = new View\Twig();
-    $view->parserOptions = $settings['view'];
-    $view->twigTemplateDirs = $settings['view']['templates'];
-    $view->parserExtensions = [
-        new View\Twig\Extension($app['request']->getUri(), $app['router'])
-    ];
+    $view = new View\Twig($app, $settings['view']['templates'], $settings['view']);
     return $view;
 }));
 

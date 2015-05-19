@@ -71,6 +71,7 @@ $app['Auth'] = function (App $app) use ($di) {
 };
 
 $app['Hello'] = function (App $app) use ($di) {
+	/*
     //$di->get('queue')->add('emails', ['test' => 'stuff']);
     $a = call_user_func($di->get('addJob'), 'emails', ['test' => 'stuff']);
 
@@ -91,6 +92,7 @@ $app['Hello'] = function (App $app) use ($di) {
         var_dump($e);
     }
     exit;
+	*/
     return $di->newInstance(Controller\Hello::class);
 };
 

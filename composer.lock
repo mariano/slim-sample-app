@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "012b5da96e1235b1c4229100cebbbc88",
+    "hash": "065af53d635ba1c3f50346512115714f",
     "packages": [
         {
             "name": "aura/di",
@@ -1001,7 +1001,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/29c92746d008ea38fa183c195a08e9335f7a32b6",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/dbf4334d912d6ecab8bf993359ecad7a44298ddd",
                 "reference": "5774eef4d94de9c2455eb200c2c974f8eef27115",
                 "shasum": ""
             },
@@ -1055,6 +1055,56 @@
                 "router"
             ],
             "time": "2015-04-21 08:22:32"
+        },
+        {
+            "name": "slim/twig-view",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/slimphp/Twig-View.git",
+                "reference": "bd85cae04b67e3204e0858b236743cb151871b63"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/slimphp/Twig-View/zipball/bd85cae04b67e3204e0858b236743cb151871b63",
+                "reference": "bd85cae04b67e3204e0858b236743cb151871b63",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "pimple/pimple": "~3.0",
+                "twig/twig": "~1.18"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Slim\\Views\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Josh Lockhart",
+                    "email": "hello@joshlockhart.com",
+                    "homepage": "http://joshlockhart.com"
+                }
+            ],
+            "description": "Slim Framework view helper built on top of the Twig templating component",
+            "homepage": "http://slimframework.com",
+            "keywords": [
+                "framework",
+                "slim",
+                "template",
+                "twig",
+                "view"
+            ],
+            "time": "2015-03-14 19:20:26"
         },
         {
             "name": "symfony/console",
@@ -1177,12 +1227,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/vlucas/phpdotenv.git",
-                "reference": "1f8f213bd1d636814f696bc0bbd8f37b1a863498"
+                "reference": "0c89422fd3757284dd22e8c54eafdf3101ea6f6e"
             },
             "dist": {
                 "type": "zip",
                 "url": "https://api.github.com/repos/vlucas/phpdotenv/zipball/0c89422fd3757284dd22e8c54eafdf3101ea6f6e",
-                "reference": "1f8f213bd1d636814f696bc0bbd8f37b1a863498",
+                "reference": "0c89422fd3757284dd22e8c54eafdf3101ea6f6e",
                 "shasum": ""
             },
             "require": {
@@ -1223,7 +1273,7 @@
                 "env",
                 "environment"
             ],
-            "time": "2015-04-14 20:52:15"
+            "time": "2015-04-22 19:02:41"
         }
     ],
     "packages-dev": [

@@ -1,78 +1,29 @@
 <?php
-/**
- * Slim - a micro PHP 5 framework
- *
- * @author      Josh Lockhart
- * @author      Andrew Smith
- * @link        http://www.slimframework.com
- * @copyright   2013 Josh Lockhart
- * @version     0.1.3
- * @package     SlimViews
- *
- * MIT LICENSE
- *
- * Permission is hereby granted, free of charge, to any person obtaining
- * a copy of this software and associated documentation files (the
- * "Software"), to deal in the Software without restriction, including
- * without limitation the rights to use, copy, modify, merge, publish,
- * distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to
- * the following conditions:
- *
- * The above copyright notice and this permission notice shall be
- * included in all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
- * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
- * NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
- * LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
- * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
- * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
- */
 namespace View;
 
-use InvalidArgumentException;
+use Pimple\Container;
+use Slim\Views\Twig as SlimTwig;
 
-/**
- * Twig view
- *
- * The Twig view is a custom View class that renders templates using the Twig
- * template language (http://www.twig-project.org/).
- *
- * Two fields that you, the developer, will need to change are:
- * - parserDirectory
- * - parserOptions
- */
 class Twig implements RendererInterface
 {
     /**
-     * @var string The path to the Twig code directory WITHOUT the trailing slash
+     * @var Slim\Views\Twig
      */
-    public $parserDirectory = null;
+    private $twig;
 
     /**
-     * DEPRECATION WARNING! This method will be removed in the next major point release
+     * Create instance
      *
-     * @var array Paths to directories to attempt to load Twig template from
+     * @param Container Pimple container
+     * @param string $path Path to templates
+     * @param array $settings Twig settings
+     * @param Slim\Views\Twig $twig Twig
      */
-    public $twigTemplateDirs = [];
-
-    /**
-     * @var array The options for the Twig environment, see
-     * http://www.twig-project.org/book/03-Twig-for-Developers
-     */
-    public $parserOptions = [];
-
-    /**
-     * @var TwigExtension The Twig extensions you want to load
-     */
-    public $parserExtensions = [];
-
-    /**
-     * @var TwigEnvironment The Twig environment for rendering templates.
-     */
-    private $parserInstance = null;
+    public function __construct(Container $container, $path, array $settings = [])
+    {
+        $this->twig = new SlimTwig($path, $settings);
+        $this->twig->register($container);
+    }
 
     /**
      * Render Twig Template
@@ -85,59 +36,6 @@ class Twig implements RendererInterface
      */
     public function render($template, array $data = null)
     {
-        $env = $this->getInstance();
-        $parser = $env->loadTemplate($template);
-
-        return $parser->render($data);
-    }
-
-    /**
-     * Creates new TwigEnvironment if it doesn't already exist, and returns it.
-     *
-     * @return \Twig_Environment
-     */
-    public function getInstance()
-    {
-        if (!$this->parserInstance) {
-            /**
-             * Check if Twig_Autoloader class exists
-             * otherwise include it.
-             */
-            if (!class_exists('\Twig_Autoloader')) {
-                require_once $this->parserDirectory . '/Autoloader.php';
-            }
-
-            \Twig_Autoloader::register();
-            $loader = new \Twig_Loader_Filesystem($this->getTemplateDirs());
-            $this->parserInstance = new \Twig_Environment(
-                $loader,
-                $this->parserOptions
-            );
-
-            foreach ($this->parserExtensions as $ext) {
-                $extension = is_object($ext) ? $ext : new $ext;
-                $this->parserInstance->addExtension($extension);
-            }
-        }
-
-        return $this->parserInstance;
-    }
-
-    /**
-     * DEPRECATION WARNING! This method will be removed in the next major point release
-     *
-     * Get a list of template directories
-     *
-     * Returns an array of templates defined by self::$twigTemplateDirs, falls
-     * back to Slim\View's built-in getTemplatesDirectory method.
-     *
-     * @return array
-     **/
-    private function getTemplateDirs()
-    {
-        if (empty($this->twigTemplateDirs)) {
-            throw new InvalidArgumentException('Missing Twig template directory');
-        }
-        return $this->twigTemplateDirs;
+        return $this->twig->fetch($template, $data);
     }
 }

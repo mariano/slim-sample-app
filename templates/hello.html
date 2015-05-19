@@ -1,5 +1,5 @@
 {% extends 'layouts/default.html' %}
 
 {% block content %}
-    Hello {{name}} - Say hello to <a href="{{ urlFor('hello', {"name": "Jane"}) }}">Jane</a>
+    Hello {{name}} - Say hello to <a href="{{ url_for('hello', {"name": "Jane"}) }}">Jane</a>
 {% endblock %}
