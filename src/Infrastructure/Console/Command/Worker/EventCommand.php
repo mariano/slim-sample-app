@@ -3,18 +3,13 @@ namespace Infrastructure\Console\Command\Worker;
 
 use Disque\Queue\Job;
 
-class EmailCommand extends WorkerCommand
+class EventCommand extends WorkerCommand
 {
-    protected function getQueueName()
-    {
-        return 'emails';
-    }
-
     protected function configure()
     {
         parent::configure();
-        $this->setName('worker:email')
-            ->setDescription('Process email jobs');
+        $this->setName('worker:event')
+            ->setDescription('Process event jobs');
     }
 
     protected function work(Job $job)

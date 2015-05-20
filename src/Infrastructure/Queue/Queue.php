@@ -10,14 +10,17 @@ use Queue\QueueInterface;
 
 class Queue implements QueueInterface
 {
+    private $queueName;
     private $client;
     private $getTimeout = 1000;
 
-    public function __construct(array $servers)
+    public function __construct($queueName, array $servers)
     {
         if (empty($servers)) {
             throw new InvalidArgumentException('No servers specified');
         }
+
+        $this->queueName = $queueName;
         $this->client = new Client($servers);
     }
 
@@ -25,12 +28,12 @@ class Queue implements QueueInterface
     {
         $disqueJob = new Job();
         $disqueJob->setBody($job->getBody());
-        $this->client->queue($job->getQueue())->push($disqueJob);
+        $this->client->queue($this->queueName)->push($disqueJob);
     }
 
-    public function get($queue)
+    public function get()
     {
-        $clientQueue = $this->client->queue($queue);
+        $clientQueue = $this->client->queue($this->queueName);
         while (!isset($job)) {
             try {
                 $job = $clientQueue->pull($this->getTimeout);
@@ -41,8 +44,13 @@ class Queue implements QueueInterface
         return $job;
     }
 
-    public function processed($queue, Job $job)
+    public function getName()
     {
-        $this->client->queue($queue)->processed($job);
+        return $this->queueName;
+    }
+
+    public function processed($job)
+    {
+        $this->client->queue($this->queueName)->processed($job);
     }
 }

@@ -38,7 +38,7 @@ $di->setter[Controller\ControllerInterface::class]['setSettings'] = $di->lazyGet
 
 // View
 
-$di->set('ViewRenderer', $di->lazy(function () use($di) {
+$di->set('ViewRenderer', $di->lazy(function () use ($di) {
     $settings = $di->get('settings');
     $view = new View\Twig($settings['view']['templates'], $settings['view']);
     $di->get('container')->register($view);
@@ -47,23 +47,19 @@ $di->set('ViewRenderer', $di->lazy(function () use($di) {
 
 // Job queue
 
-$di->set('queue', $di->lazy(function () use($di) {
+$di->set('queue:events', $di->lazy(function () use ($di) {
     $settings = $di->get('settings');
     $settings['job'] += [
         'servers' => ''
     ];
-    return new Infrastructure\Queue\Queue(array_map('trim', explode(',', $settings['job']['servers'])));
+    return new Infrastructure\Queue\Queue('events', array_map('trim', explode(',', $settings['job']['servers'])));
 }));
 
-$di->set('addJob', $di->lazy(function () use ($di) {
-    $queue = $di->get('queue');
-    return function ($queueName, array $payload) use ($queue) {
-        $job = new Infrastructure\Queue\Job();
-        $job->setQueue($queueName);
-        $job->setBody($payload);
+// Events
 
-        $queue->add($job);
-    };
+$di->set('event', $di->lazy(function () use ($di) {
+    $queue = $di->get('queue:events');
+    return new Event\Dispatcher($queue);
 }));
 
 return $di;

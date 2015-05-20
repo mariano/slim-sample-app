@@ -2,9 +2,9 @@
 <?php
 $di = require_once(__DIR__ . '/../src/bootstrap.php');
 
-use Infrastructure\Console\Command\Worker\EmailCommand;
+use Infrastructure\Console\Command\Worker\EventCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
-$application->add(new EmailCommand($di->get('queue')));
+$application->add(new EventCommand($di->get('queue:events')));
 $application->run();

@@ -73,10 +73,8 @@ $container['Auth'] = function () use ($di) {
 };
 
 $container['Hello'] = function () use ($di) {
-	/*
-    //$di->get('queue')->add('emails', ['test' => 'stuff']);
-    $a = call_user_func($di->get('addJob'), 'emails', ['test' => 'stuff']);
-
+    /*
+    $di->get('event')->dispatch(new Event\Event('user:registered', ['email' => 'john@example.com']));
     echo 'DONE';
     exit;
     $hybridAuth = $di->get('HybridAuth');
@@ -94,7 +92,7 @@ $container['Hello'] = function () use ($di) {
         var_dump($e);
     }
     exit;
-	*/
+    */
     return $di->newInstance(Controller\Hello::class);
 };
 

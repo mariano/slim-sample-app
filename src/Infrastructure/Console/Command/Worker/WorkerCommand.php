@@ -75,7 +75,7 @@ abstract class WorkerCommand extends Command
         $this->limit = $limit ? (int) $limit : 0;
 
         $jobs = 0;
-        $queueName = $this->getQueueName();
+        $queueName = $this->queue->getName();
 
         $this->out("Waiting on {$queueName} jobs...");
         while ($this->allowJobs) {
@@ -86,7 +86,7 @@ abstract class WorkerCommand extends Command
 
             try {
                 $this->work($job);
-                $this->queue->processed($queueName, $job);
+                $this->queue->processed($job);
                 $this->out("Finished processing job #{$job->getId()}", OutputInterface::VERBOSITY_VERBOSE);
             } catch (Exception $e) {
                 $this->out('ERROR ' . get_class($e) . ' while processing job: ' . $e->getMessage());
@@ -112,6 +112,5 @@ abstract class WorkerCommand extends Command
         $this->output->writeln('[' . date('Y-m-d H:i:s') . '] ' . $text);
     }
 
-    abstract protected function getQueueName();
     abstract protected function work(Job $job);
 }
