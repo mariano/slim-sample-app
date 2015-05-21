@@ -73,7 +73,7 @@ $container['Auth'] = function () use ($di) {
 };
 
 $container['Hello'] = function () use ($di) {
-    $di->get('event')->dispatch(new Event\Event('user:registered', ['email' => 'john@example.com']));
+    $di->get('event')->dispatch(new Event\UserRegistered('john@example.com'));
     echo 'DONE';
     exit;
     /*

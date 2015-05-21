@@ -3,7 +3,6 @@ namespace Infrastructure\Queue;
 
 use Disque\Queue\Job;
 use Disque\Queue\JobInterface;
-use Event\Event;
 use Event\EventInterface;
 
 class EventJob extends Job implements JobInterface
@@ -20,13 +19,16 @@ class EventJob extends Job implements JobInterface
      *
      * @param EventInterface $event Event
      */
-    public function __construct(EventInterface $event)
+    public function __construct(EventInterface $event = null)
     {
-        $this->event = $event;
-        $this->setBody([
-            'name' => $event->getName(),
-            'arguments' => $event->getArguments()
-        ]);
+        if (isset($event)) {
+            $this->event = $event;
+            $this->setBody([
+                'class' => get_class($event),
+                'name' => $event->getName(),
+                'arguments' => $event->getArguments()
+            ]);
+        }
     }
 
     /**
@@ -36,8 +38,10 @@ class EventJob extends Job implements JobInterface
      */
     public function getEvent()
     {
-        if (!isset($this->event) && !empty($this->body)) {
-            $this->event = new Event($this->body['name'], $this->body['arguments']);
+        $body = $this->getBody();
+        if (!isset($this->event) && !empty($body)) {
+            $class = $body['class'];
+            $this->event = $class::getInstance($body['name'], $body['arguments']);
         }
         return $this->event;
     }

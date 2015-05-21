@@ -1,7 +1,7 @@
 <?php
 namespace Infrastructure\Console\Command\Worker;
 
-use Event\Event;
+use Event\EventInterface;
 use Infrastructure\Queue\EventJob;
 use Queue\EventQueueInterface;
 
@@ -28,7 +28,7 @@ class EventCommand extends WorkerCommand
         $this->process($job->getEvent());
     }
 
-    private function process(Event $event)
+    private function process(EventInterface $event)
     {
         echo "GOT EVENT!\n";
         var_dump($event);

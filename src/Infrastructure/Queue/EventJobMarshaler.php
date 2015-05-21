@@ -1,7 +1,6 @@
 <?php
 namespace Infrastructure\Queue;
 
-use Event\Event;
 use Disque\Queue\JobInterface;
 use Disque\Queue\Marshal\MarshalerInterface;
 use Disque\Queue\Marshal\MarshalException;
@@ -17,8 +16,9 @@ class EventJobMarshaler implements MarshalerInterface
             throw new MarshalException('Not an Event job');
         }
 
-        $event = new Event($body['name'], $body['arguments']);
-        return new EventJob($event);
+        $job = new EventJob();
+        $job->setBody($body);
+        return $job;
     }
 
     public function marshal(JobInterface $job)
