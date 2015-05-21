@@ -25,29 +25,18 @@ class Event implements EventInterface
      */
     public function __construct($name, array $arguments = [])
     {
-        $this->setName($name);
-        $this->setArguments($arguments);
+        $this->name = $name;
+        $this->arguments = $arguments;
     }
 
     /**
-     * Get the event name
+     * Get event name
      *
-     * @return string Event name
+     * @return string
      */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * Set the event name
-     *
-     * @param string $name Event name
-     * @return void
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
     }
 
     /**
@@ -58,16 +47,5 @@ class Event implements EventInterface
     public function getArguments()
     {
         return $this->arguments;
-    }
-
-    /**
-     * Set args property.
-     *
-     * @param array $args Arguments
-     * @return void
-     */
-    public function setArguments(array $arguments = [])
-    {
-        $this->arguments = $arguments;
     }
 }

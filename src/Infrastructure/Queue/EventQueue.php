@@ -4,31 +4,32 @@ namespace Infrastructure\Queue;
 use Disque\Client;
 use Disque\Queue\Job;
 use Disque\Queue\JobNotAvailableException;
+use Event\EventInterface;
 use InvalidArgumentException;
-use Queue\JobInterface;
-use Queue\QueueInterface;
+use Queue\EventQueueInterface;
 
-class Queue implements QueueInterface
+class EventQueue implements EventQueueInterface
 {
-    private $queueName;
+    private $queueName = 'events';
     private $client;
+    private $queue;
     private $getTimeout = 1000;
 
-    public function __construct($queueName, array $servers)
+    public function __construct(array $servers)
     {
         if (empty($servers)) {
             throw new InvalidArgumentException('No servers specified');
         }
 
-        $this->queueName = $queueName;
         $this->client = new Client($servers);
+        $this->queue = $this->client->queue($this->queueName);
+        $this->queue->setMarshaler(new EventJobMarshaler());
     }
 
-    public function add(JobInterface $job)
+    public function add(EventInterface $event)
     {
-        $disqueJob = new Job();
-        $disqueJob->setBody($job->getBody());
-        $this->client->queue($this->queueName)->push($disqueJob);
+        $job = new EventJob($event);
+        $this->client->queue($this->queueName)->push($job);
     }
 
     public function get()

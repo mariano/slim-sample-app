@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fdc03c1e650e3cc0126e23fa51811d23",
+    "hash": "27077c8a25ab3d9ca12beaa7ad2155cc",
     "packages": [
         {
             "name": "aura/di",
@@ -834,16 +834,16 @@
         },
         {
             "name": "mariano/disque-php",
-            "version": "1.2.1",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/mariano/disque-php.git",
-                "reference": "86abcf6ea8bd7bc60761d9c0da28e6feaf1f3cfc"
+                "reference": "3a9d7ff9de1f58a5f23b16c6c4a662f29665b436"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mariano/disque-php/zipball/86abcf6ea8bd7bc60761d9c0da28e6feaf1f3cfc",
-                "reference": "86abcf6ea8bd7bc60761d9c0da28e6feaf1f3cfc",
+                "url": "https://api.github.com/repos/mariano/disque-php/zipball/3a9d7ff9de1f58a5f23b16c6c4a662f29665b436",
+                "reference": "3a9d7ff9de1f58a5f23b16c6c4a662f29665b436",
                 "shasum": ""
             },
             "require": {
@@ -881,7 +881,7 @@
                 "job",
                 "queue"
             ],
-            "time": "2015-05-14 18:28:27"
+            "time": "2015-05-18 13:55:39"
         },
         {
             "name": "nikic/fast-route",

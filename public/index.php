@@ -73,10 +73,10 @@ $container['Auth'] = function () use ($di) {
 };
 
 $container['Hello'] = function () use ($di) {
-    /*
     $di->get('event')->dispatch(new Event\Event('user:registered', ['email' => 'john@example.com']));
     echo 'DONE';
     exit;
+    /*
     $hybridAuth = $di->get('HybridAuth');
     echo 'FACEBOOK:<hr />';
     var_dump($hybridAuth->isConnectedWith('Facebook'));

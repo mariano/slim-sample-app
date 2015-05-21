@@ -4,9 +4,6 @@ namespace Infrastructure\Console\Command\Worker;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
-use Queue\QueueInterface;
-use Disque\Queue\Job;
-use Disque\Queue\JobNotAvailableException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -15,16 +12,10 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class WorkerCommand extends Command
 {
-    private $queue;
+    protected $queue;
+    protected $output;
     private $limit = 0;
     private $allowJobs = true;
-    protected $output;
-
-    public function __construct(QueueInterface $queue)
-    {
-        parent::__construct();
-        $this->queue = $queue;
-    }
 
     protected function configure()
     {
@@ -112,5 +103,5 @@ abstract class WorkerCommand extends Command
         $this->output->writeln('[' . date('Y-m-d H:i:s') . '] ' . $text);
     }
 
-    abstract protected function work(Job $job);
+    abstract protected function work($job);
 }

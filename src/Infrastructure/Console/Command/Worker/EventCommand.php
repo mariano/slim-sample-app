@@ -1,10 +1,18 @@
 <?php
 namespace Infrastructure\Console\Command\Worker;
 
-use Disque\Queue\Job;
+use Event\Event;
+use Infrastructure\Queue\EventJob;
+use Queue\EventQueueInterface;
 
 class EventCommand extends WorkerCommand
 {
+    public function __construct(EventQueueInterface $queue)
+    {
+        parent::__construct();
+        $this->queue = $queue;
+    }
+
     protected function configure()
     {
         parent::configure();
@@ -12,10 +20,18 @@ class EventCommand extends WorkerCommand
             ->setDescription('Process event jobs');
     }
 
-    protected function work(Job $job)
+    protected function work($job)
     {
-        echo "GOT JOB!\n";
-        var_dump($job);
+        if (!($job instanceof EventJob)) {
+            throw new InvalidArgumentException('Not an EventJob');
+        }
+        $this->process($job->getEvent());
+    }
+
+    private function process(Event $event)
+    {
+        echo "GOT EVENT!\n";
+        var_dump($event);
         for ($i = 1; $i <= 10; $i++) {
             echo $i . " - ";
             sleep(1);

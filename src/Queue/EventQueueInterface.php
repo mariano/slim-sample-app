@@ -1,9 +1,11 @@
 <?php
 namespace Queue;
 
-interface QueueInterface
+use Event\EventInterface;
+
+interface EventQueueInterface
 {
-    public function add(JobInterface $job);
+    public function add(EventInterface $job);
     public function get();
     public function processed($job);
     public function getName();

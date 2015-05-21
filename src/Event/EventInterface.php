@@ -4,7 +4,7 @@ namespace Event;
 interface EventInterface
 {
     /**
-     * Gets the event's name.
+     * Get event name
      *
      * @return string
      */

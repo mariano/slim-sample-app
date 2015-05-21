@@ -1,18 +1,18 @@
 <?php
 namespace Event;
 
-use Queue\QueueInterface;
+use Queue\EventQueueInterface;
 
 class Dispatcher
 {
     /**
-     * Job queue
+     * Queue
      *
-     * @var QueueInterface
+     * @var EventQueueInterface
      */
     private $queue;
 
-    public function __construct(QueueInterface $queue)
+    public function __construct(EventQueueInterface $queue)
     {
         $this->queue = $queue;
     }
@@ -24,6 +24,6 @@ class Dispatcher
      */
     public function dispatch(EventInterface $event)
     {
-        $this->queue->add(new EventJob($event));
+        $this->queue->add($event);
     }
 }

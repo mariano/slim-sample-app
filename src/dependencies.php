@@ -52,7 +52,8 @@ $di->set('queue:events', $di->lazy(function () use ($di) {
     $settings['job'] += [
         'servers' => ''
     ];
-    return new Infrastructure\Queue\Queue('events', array_map('trim', explode(',', $settings['job']['servers'])));
+    $queue = new Infrastructure\Queue\EventQueue(array_map('trim', explode(',', $settings['job']['servers'])));
+    return $queue;
 }));
 
 // Events
