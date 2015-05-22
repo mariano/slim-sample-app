@@ -7,8 +7,8 @@
     backupGlobals="false">
 
     <testsuites>
-        <testsuite name="Data">
-            <directory suffix="Test.php">tests/Data/</directory>
+        <testsuite name="Domain">
+            <directory suffix="Test.php">tests/Domain/</directory>
         </testsuite>
     </testsuites>
 

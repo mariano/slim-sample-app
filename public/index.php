@@ -66,17 +66,17 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
 // Set up controllers
 
 $container['Auth'] = function () use ($di) {
-    return $di->newInstance(Controller\Auth::class, [
+    return $di->newInstance(Application\Controller\Auth::class, [
         'store' => $di->get('UserStore'),
         'hybridAuth' => $di->get('HybridAuth')
     ]);
 };
 
 $container['Hello'] = function () use ($di) {
+    /*
     $di->get('event')->dispatch(new Event\UserRegistered('john@example.com'));
     echo 'DONE';
     exit;
-    /*
     $hybridAuth = $di->get('HybridAuth');
     echo 'FACEBOOK:<hr />';
     var_dump($hybridAuth->isConnectedWith('Facebook'));
@@ -93,7 +93,7 @@ $container['Hello'] = function () use ($di) {
     }
     exit;
     */
-    return $di->newInstance(Controller\Hello::class);
+    return $di->newInstance(Application\Controller\Hello::class);
 };
 
 // Set up routes
