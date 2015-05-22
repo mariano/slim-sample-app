@@ -61,6 +61,14 @@ class UserTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($result);
     }
 
+    public function testSetPasswordNull()
+    {
+        $entity = new User();
+        $entity->setPassword();
+        $result = $entity->isPasswordSet();
+        $this->assertFalse($result);
+    }
+
     public function testSetPasswordHash()
     {
         $entity = new MockUser();
