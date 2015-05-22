@@ -60,7 +60,7 @@ $di->set('queue:events', $di->lazy(function () use ($di) {
 
 $di->set('event', $di->lazy(function () use ($di) {
     $queue = $di->get('queue:events');
-    return new Event\Dispatcher($queue);
+    return new Application\Event\Dispatcher($queue);
 }));
 
 return $di;

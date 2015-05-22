@@ -1,6 +1,8 @@
 <?php
 namespace Infrastructure\Console\Command\Worker;
 
+use Application\Queue\QueueInterface;
+use Disque\Queue\JobInterface;
 use Exception;
 use InvalidArgumentException;
 use RuntimeException;
@@ -12,11 +14,50 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 abstract class WorkerCommand extends Command
 {
+    /**
+     * Disque queue
+     *
+     * @var QueueInterface
+     */
     protected $queue;
+
+    /**
+     * Output stream
+     *
+     * @var OutputInterface
+     */
     protected $output;
+
+    /**
+     * Do not process more than these number of jobs
+     *
+     * @var int
+     */
     private $limit = 0;
+
+    /**
+     * Wether to allow any further job processing
+     *
+     * @var bool
+     */
     private $allowJobs = true;
 
+    /**
+     * Create instance
+     *
+     * @param QueueInterface $queue Queue
+     */
+    public function __construct(QueueInterface $queue)
+    {
+        parent::__construct();
+        $this->queue = $queue;
+    }
+
+    /**
+     * Configure command
+     *
+     * @return void
+     */
     protected function configure()
     {
         $this->addOption(
@@ -28,6 +69,12 @@ abstract class WorkerCommand extends Command
         );
     }
 
+    /**
+     * Initializes the command just after the input has been validated.
+     *
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     */
     protected function initialize(InputInterface $input, OutputInterface $output)
     {
         $this->output = $output;
@@ -46,6 +93,9 @@ abstract class WorkerCommand extends Command
 
     /**
      * Signal handler. Needs to be public
+     *
+     * @param string $signal Signal
+     * @return void
      */
     public function signal($signal)
     {
@@ -57,6 +107,13 @@ abstract class WorkerCommand extends Command
         }
     }
 
+    /**
+     * Executes the current command.
+     *
+     * @param InputInterface  $input  An InputInterface instance
+     * @param OutputInterface $output An OutputInterface instance
+     * @return void
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $limit = $input->getOption('limit');
@@ -94,6 +151,12 @@ abstract class WorkerCommand extends Command
         $this->out("TOTAL jobs processed: {$jobs}");
     }
 
+    /**
+     * Output the given string using the given log level
+     *
+     * @param string $text Text to output
+     * @param int $level Log level of message
+     */
     protected function out($text, $level = OutputInterface::VERBOSITY_NORMAL)
     {
         if ($this->output->isQuiet() || $level > $this->output->getVerbosity()) {
@@ -103,5 +166,11 @@ abstract class WorkerCommand extends Command
         $this->output->writeln('[' . date('Y-m-d H:i:s') . '] ' . $text);
     }
 
-    abstract protected function work($job);
+    /**
+     * Work on a job
+     *
+     * @param JobInterface $job Job
+     * @return void
+     */
+    abstract protected function work(JobInterface $job);
 }

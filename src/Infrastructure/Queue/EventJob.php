@@ -3,10 +3,17 @@ namespace Infrastructure\Queue;
 
 use Disque\Queue\Job;
 use Disque\Queue\JobInterface;
-use Event\EventInterface;
+use Domain\Event\EventInterface;
 
-class EventJob extends Job implements JobInterface
+abstract class EventJob extends Job implements JobInterface
 {
+    /**
+     * Event name
+     *
+     * @var string
+     */
+    private $name;
+
     /**
      * Underlying event
      *
@@ -15,20 +22,35 @@ class EventJob extends Job implements JobInterface
     private $event;
 
     /**
-     * Build a job with the given body
+     * Build a job
      *
+     * @param string $name Event name
      * @param EventInterface $event Event
+     * @return EventJob Job
      */
-    public function __construct(EventInterface $event = null)
+    public static function getInstance($name, EventInterface $event)
     {
-        if (isset($event)) {
-            $this->event = $event;
-            $this->setBody([
-                'class' => get_class($event),
-                'name' => $event->getName(),
-                'arguments' => $event->getArguments()
-            ]);
+        $job = new static();
+        $job->setBody([
+            'class' => get_class($this),
+            'name' => $name,
+            'arguments' => []
+        ]);
+        return $job;
+    }
+
+    /**
+     * Get event name
+     *
+     * @return string Name
+     */
+    public function getName()
+    {
+        if (!isset($this->name)) {
+            $body = $this->getBody();
+            $this->name = $body['name'];
         }
+        return $this->name;
     }
 
     /**
@@ -38,11 +60,17 @@ class EventJob extends Job implements JobInterface
      */
     public function getEvent()
     {
-        $body = $this->getBody();
-        if (!isset($this->event) && !empty($body)) {
-            $class = $body['class'];
-            $this->event = $class::getInstance($body['name'], $body['arguments']);
+        if (!isset($this->event)) {
+            $body = $this->getBody();
+            $this->event = $this->getEventInstance($body['arguments']);
         }
         return $this->event;
     }
+
+    /**
+     * Build the underlying event instance out of the given arguments
+     *
+     * @return EventInterface Event
+     */
+    abstract protected function getEventInstance(array $arguments);
 }
