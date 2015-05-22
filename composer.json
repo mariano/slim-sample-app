@@ -1,4 +1,28 @@
 {
+    "name": "mariano/slim-sample-app",
+    "description": "Slim (3.* and later) sample app with a feeling of DDD",
+    "type": "library",
+    "keywords": [
+        "slim",
+        "ddd"
+    ],
+    "homepage": "https://github.com/mariano/slim-sample-app",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mariano Iglesias",
+            "email": "mgiglesias@gmail.com",
+            "homepage": "http://marianoiglesias.com.ar"
+        }
+    ],
+    "support": {
+        "email": "mgiglesias@gmail.com",
+        "issues": "https://github.com/mariano/slim-sample-app/issues",
+        "source": "https://github.com/mariano/slim-sample-app"
+    },
+    "require": {
+        "php": ">=5.5"
+    },
     "autoload": {
         "psr-4": { "": "src/" }
     },
@@ -16,6 +40,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.6",
-        "mockery/mockery": "0.9.*"
+        "mockery/mockery": "0.9.*",
+        "scrutinizer/ocular": "^1.1"
     }
 }
