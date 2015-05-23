@@ -4,7 +4,6 @@ namespace Infrastructure\Console\Command\Worker;
 use Disque\Queue\JobInterface;
 use Domain\Event\EventInterface;
 use Infrastructure\Queue\EventJob;
-use Queue\EventQueueInterface;
 
 class EventCommand extends WorkerCommand
 {

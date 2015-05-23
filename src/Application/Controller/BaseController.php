@@ -1,11 +1,11 @@
 <?php
 namespace Application\Controller;
 
+use Application\View\RendererInterface;
+use Application\View\ViewInterface;
 use BadMethodCallException;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
-use Application\View\RendererInterface;
-use Application\View\ViewInterface;
 
 abstract class BaseController implements ControllerInterface
 {
@@ -19,28 +19,28 @@ abstract class BaseController implements ControllerInterface
     /**
      * Action request
      *
-     * @var Psr\Http\Message\RequestInterface
+     * @var RequestInterface
      */
     protected $request;
 
     /**
      * Renderer
      *
-     * @var View\RendererInterface
+     * @var RendererInterface
      */
     private $renderer;
 
     /**
      * Action response
      *
-     * @var Psr\Http\Message\ResponseInterface
+     * @var ResponseInterface
      */
     private $response;
 
     /**
      * Set view renderer
      *
-     * @param View\RendererInterface $renderer Renderer
+     * @param RendererInterface $renderer Renderer
      */
     public function setRenderer(RendererInterface $renderer)
     {
@@ -62,7 +62,7 @@ abstract class BaseController implements ControllerInterface
      *
      * @param string $name Method name
      * @param array $arguments Method arguments
-     * @return mixed Whatever the underlying calls returns
+     * @return ResponseInterface Whatever the underlying calls returns
      * @throws BadMethodCallException
      */
     public function __call($name, array $arguments)
@@ -84,12 +84,12 @@ abstract class BaseController implements ControllerInterface
             $response = ($result instanceof ResponseInterface ? $result : $this->response);
 
             if (is_string($result)) {
-                $response->write($result);
+                $response->getBody()->write($result);
             } elseif ($result instanceof ViewInterface) {
                 $vars = $result->getVars() + [
                     'debug' => !empty($this->settings['view']['debug'])
                 ];
-                $response->write($this->renderer->render($result->getTemplate(), $vars));
+                $response->getBody()->write($this->renderer->render($result->getTemplate(), $vars));
             }
 
             return $response;

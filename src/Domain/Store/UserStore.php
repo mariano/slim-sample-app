@@ -9,7 +9,7 @@ class UserStore implements UserStoreInterface
     /**
      * Repository
      *
-     * @var UserStoreInterface
+     * @var UserRepositoryInterface
      */
     private $repo;
 
@@ -58,6 +58,6 @@ class UserStore implements UserStoreInterface
             return $user;
         }
 
-        return $this->repo->addBySocialAccount($type, $data);
+        return $this->repo->addFromSocialAccount($type, $data);
     }
 }

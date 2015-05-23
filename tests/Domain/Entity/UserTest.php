@@ -214,21 +214,21 @@ class UserTest extends PHPUnit_Framework_TestCase
 
     public function testSetCountryEmpty()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Country cannot be empty');
+        $this->setExpectedException(InvalidArgumentException::class, 'Field cannot be empty');
         $entity = new User();
         $entity->setCountry('');
     }
 
     public function testSetCountrySpaces()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Country cannot be empty');
+        $this->setExpectedException(InvalidArgumentException::class, 'Field cannot be empty');
         $entity = new User();
         $entity->setCountry('   ');
     }
 
     public function testSetCountryInvalid()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Invalid country code specified: A');
+        $this->setExpectedException(InvalidArgumentException::class, 'Invalid field value specified: A');
         $entity = new User();
         $entity->setCountry('A');
     }
@@ -243,21 +243,21 @@ class UserTest extends PHPUnit_Framework_TestCase
 
     public function testSetLocaleEmpty()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Locale cannot be empty');
+        $this->setExpectedException(InvalidArgumentException::class, 'Field cannot be empty');
         $entity = new User();
         $entity->setLocale('');
     }
 
     public function testSetLocaleSpaces()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Locale cannot be empty');
+        $this->setExpectedException(InvalidArgumentException::class, 'Field cannot be empty');
         $entity = new User();
         $entity->setLocale('   ');
     }
 
     public function testSetLocaleInvalid()
     {
-        $this->setExpectedException(InvalidArgumentException::class, 'Invalid locale specified: en');
+        $this->setExpectedException(InvalidArgumentException::class, 'Invalid field value specified: en');
         $entity = new User();
         $entity->setLocale('en');
     }

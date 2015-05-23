@@ -27,5 +27,5 @@ interface UserRepositoryInterface
      * @param array $data Data
      * @return User
      */
-    //public function addFromSocialAccount($type, array $data);
+    public function addFromSocialAccount($type, array $data);
 }

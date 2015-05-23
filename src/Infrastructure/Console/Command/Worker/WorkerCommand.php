@@ -7,7 +7,6 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -127,7 +126,7 @@ abstract class WorkerCommand extends Command
 
         $this->out("Waiting on {$queueName} jobs...");
         while ($this->allowJobs) {
-            $job = $this->queue->get($queueName);
+            $job = $this->queue->get();
 
             $this->out("Got job #{$job->getId()}", OutputInterface::VERBOSITY_VERBOSE);
             $this->out("Job #{$job->getId()} body: " . json_encode($job->getBody()), OutputInterface::VERBOSITY_VERY_VERBOSE);

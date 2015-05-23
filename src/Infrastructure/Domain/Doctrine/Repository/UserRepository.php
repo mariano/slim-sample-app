@@ -58,4 +58,15 @@ class UserRepository implements UserRepositoryInterface
             ->findOneBy(compact('type', 'identifier'));
         return (isset($socialAccount) ? $socialAccount->getUser() : null);
     }
+
+    /**
+     * Add a new user with data from a SocialAccount
+     *
+     * @param string $type SocialAccountIdentifier type
+     * @param array $data Data
+     * @return User
+     */
+    public function addFromSocialAccount($type, array $data)
+    {
+    }
 }

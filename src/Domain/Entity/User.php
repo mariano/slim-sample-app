@@ -132,11 +132,7 @@ class User implements UserInterface
 
     public function setCountry($country)
     {
-        if (trim($country) === '') {
-            throw new InvalidArgumentException("Country cannot be empty");
-        } elseif (strlen($country) !== 2) {
-            throw new InvalidArgumentException("Invalid country code specified: {$country}");
-        }
+        $this->validateStringLength($country, 2);
         $this->country = $country;
     }
 
@@ -147,11 +143,7 @@ class User implements UserInterface
 
     public function setLocale($locale)
     {
-        if (trim($locale) === '') {
-            throw new InvalidArgumentException("Locale cannot be empty");
-        } elseif (strlen($locale) !== 5) {
-            throw new InvalidArgumentException("Invalid locale specified: {$locale}");
-        }
+        $this->validateStringLength($locale, 5);
         $this->locale = $locale;
     }
 
@@ -173,5 +165,21 @@ class User implements UserInterface
     public function getCreated()
     {
         return $this->created;
+    }
+
+    /**
+     * Validate a string
+     *
+     * @param string $string String
+     * @param int $length Length
+     * @throws InvalidArgumentException
+     */
+    private function validateStringLength($string, $length)
+    {
+        if (trim($string) === '') {
+            throw new InvalidArgumentException('Field cannot be empty');
+        } elseif (strlen($string) !== $length) {
+            throw new InvalidArgumentException("Invalid field value specified: {$string}");
+        }
     }
 }

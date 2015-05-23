@@ -1,7 +1,7 @@
 {
     "name": "mariano/slim-sample-app",
     "description": "Slim (3.* and later) sample app with a feeling of DDD",
-    "type": "library",
+    "type": "project",
     "keywords": [
         "slim",
         "ddd"

@@ -1,11 +1,11 @@
 <?php
 namespace Application\Controller;
 
+use Application\View\View;
+use Domain\Store\UserStoreInterface;
+use Exception\InvalidUriException;
 use Hybrid_Auth;
 use Hybrid_Endpoint;
-use Exception\InvalidUriException;
-use Domain\Store\UserStoreInterface;
-use Application\View\View;
 
 class Auth extends BaseController
 {
@@ -35,7 +35,7 @@ class Auth extends BaseController
         $this->hybridAuth = $hybridAuth;
     }
 
-    public function loginAction(array $args)
+    public function loginAction()
     {
         return new View('auth/login.html');
     }
