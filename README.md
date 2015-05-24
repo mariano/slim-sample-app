@@ -1,3 +1,5 @@
+A Slim3 application with an architecture following a DDD approach.
+
 # Install requirements
 
 ```bash
