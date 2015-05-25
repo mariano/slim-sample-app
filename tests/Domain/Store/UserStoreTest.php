@@ -1,6 +1,7 @@
 <?php
 namespace Test\Domain\Store;
 
+use InvalidArgumentException;
 use Mockery as m;
 use PHPUnit_Framework_TestCase;
 use Domain\Entity\UserInterface;
@@ -103,6 +104,45 @@ class UserStoreTest extends PHPUnit_Framework_TestCase
             ->getMock();
         $store = new UserStore($repo);
         $result = $store->getByLogin('email', 'password');
+        $this->assertSame($user, $result);
+    }
+
+    public function testGetBySocialAccountMissingIdentifier()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $store = new UserStore(m::mock(UserRepositoryInterface::class));
+        $store->getBySocialAccount('type', []);
+    }
+
+    public function testGetBySocialAccountExistingIdentifier()
+    {
+        $user = new User();
+        $repo = m::mock(UserRepositoryInterface::class)
+            ->shouldReceive('findOneBySocialAccount')
+            ->once()
+            ->with('type', 'id')
+            ->andReturn($user)
+            ->getMock();
+        $store = new UserStore($repo);
+        $result = $store->getBySocialAccount('type', ['identifier' => 'id']);
+        $this->assertSame($user, $result);
+    }
+
+    public function testGetBySocialAccountNonExistingIdentifier()
+    {
+        $user = new User();
+        $repo = m::mock(UserRepositoryInterface::class)
+            ->shouldReceive('findOneBySocialAccount')
+            ->once()
+            ->with('type', 'id')
+            ->andReturn(null)
+            ->shouldReceive('addFromSocialAccount')
+            ->with('type', ['identifier' => 'id'])
+            ->andReturn($user)
+            ->once()
+            ->getMock();
+        $store = new UserStore($repo);
+        $result = $store->getBySocialAccount('type', ['identifier' => 'id']);
         $this->assertSame($user, $result);
     }
 }

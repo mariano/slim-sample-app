@@ -1,6 +1,7 @@
 <?php
 namespace Domain\Store;
 
+use InvalidArgumentException;
 use Domain\Store\Exception\InvalidLoginException;
 use Domain\Store\Repository\UserRepositoryInterface;
 
@@ -50,7 +51,7 @@ class UserStore implements UserStoreInterface
     public function getBySocialAccount($type, array $data)
     {
         if (empty($data['identifier'])) {
-            throw new InvalidLoginException('Missing required data from Social account');
+            throw new InvalidArgumentException('Missing required data from Social account');
         }
 
         $user = $this->repo->findOneBySocialAccount($type, $data['identifier']);
