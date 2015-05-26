@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6003793df95f3f3cae5268f5f1fd7097",
+    "hash": "f877e24528e0179b313525f1f46ed7cf",
     "packages": [
         {
             "name": "aura/di",
@@ -885,16 +885,16 @@
         },
         {
             "name": "nikic/fast-route",
-            "version": "v0.4.0",
+            "version": "v0.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "f26a8f7788f25c0e3e9b1579d38d7ccab2755320"
+                "reference": "ffb3b68a3ab0df7e60cf587d2de4937915670f16"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/f26a8f7788f25c0e3e9b1579d38d7ccab2755320",
-                "reference": "f26a8f7788f25c0e3e9b1579d38d7ccab2755320",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/ffb3b68a3ab0df7e60cf587d2de4937915670f16",
+                "reference": "ffb3b68a3ab0df7e60cf587d2de4937915670f16",
                 "shasum": ""
             },
             "require": {
@@ -924,7 +924,7 @@
                 "router",
                 "routing"
             ],
-            "time": "2015-02-26 15:33:07"
+            "time": "2015-05-15 16:58:32"
         },
         {
             "name": "pimple/pimple",
@@ -974,17 +974,20 @@
         },
         {
             "name": "psr/http-message",
-            "version": "0.11.0",
+            "version": "1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "809419e498a388dfa7ef6898392431e5911a0289"
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/809419e498a388dfa7ef6898392431e5911a0289",
-                "reference": "809419e498a388dfa7ef6898392431e5911a0289",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
+                "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
             },
             "type": "library",
             "extra": {
@@ -994,7 +997,7 @@
             },
             "autoload": {
                 "psr-4": {
-                    "Psr\\Http\\Message\\": "src"
+                    "Psr\\Http\\Message\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1016,7 +1019,7 @@
                 "request",
                 "response"
             ],
-            "time": "2015-05-04 20:20:08"
+            "time": "2015-05-04 20:22:00"
         },
         {
             "name": "slim/slim",
@@ -1024,12 +1027,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "a92eea6807c2d3f04e7d5458c27a144d4f8e69ed"
+                "reference": "d3039eafc510f269985d9953d0accd0ea4c37a1b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/a92eea6807c2d3f04e7d5458c27a144d4f8e69ed",
-                "reference": "a92eea6807c2d3f04e7d5458c27a144d4f8e69ed",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/d3039eafc510f269985d9953d0accd0ea4c37a1b",
+                "reference": "d3039eafc510f269985d9953d0accd0ea4c37a1b",
                 "shasum": ""
             },
             "require": {
@@ -1037,7 +1040,7 @@
                 "nikic/fast-route": "~0.4",
                 "php": ">=5.4.0",
                 "pimple/pimple": "3.*",
-                "psr/http-message": "~0.8"
+                "psr/http-message": "1.0"
             },
             "require-dev": {
                 "mockery/mockery": "dev-master@dev",
@@ -1082,7 +1085,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2015-05-21 20:51:43"
+            "time": "2015-05-25 19:41:44"
         },
         {
             "name": "slim/twig-view",
@@ -1936,16 +1939,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.0.16",
+            "version": "2.0.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "934fd03eb6840508231a7f73eb8940cf32c3b66c"
+                "reference": "c4e8e7725e351184a76544634855b8a9c405a6e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/934fd03eb6840508231a7f73eb8940cf32c3b66c",
-                "reference": "934fd03eb6840508231a7f73eb8940cf32c3b66c",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/c4e8e7725e351184a76544634855b8a9c405a6e3",
+                "reference": "c4e8e7725e351184a76544634855b8a9c405a6e3",
                 "shasum": ""
             },
             "require": {
@@ -1994,7 +1997,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-04-11 04:35:00"
+            "time": "2015-05-25 05:11:59"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2182,16 +2185,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.6.6",
+            "version": "4.6.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "3afe303d873a4d64c62ef84de491b97b006fbdac"
+                "reference": "57bf06dd4eebe2a5ced79a8de71509e7d5c18b25"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/3afe303d873a4d64c62ef84de491b97b006fbdac",
-                "reference": "3afe303d873a4d64c62ef84de491b97b006fbdac",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/57bf06dd4eebe2a5ced79a8de71509e7d5c18b25",
+                "reference": "57bf06dd4eebe2a5ced79a8de71509e7d5c18b25",
                 "shasum": ""
             },
             "require": {
@@ -2250,7 +2253,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-04-29 15:18:52"
+            "time": "2015-05-25 05:18:18"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
