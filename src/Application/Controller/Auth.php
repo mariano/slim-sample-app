@@ -2,7 +2,7 @@
 namespace Application\Controller;
 
 use Application\View\View;
-use Domain\Store\UserStoreInterface;
+use Domain\Repository\UserRepositoryInterface;
 use Exception\InvalidUriException;
 use Hybrid_Auth;
 use Hybrid_Endpoint;
@@ -10,11 +10,11 @@ use Hybrid_Endpoint;
 class Auth extends BaseController
 {
     /**
-     * User store
+     * User repository
      *
-     * @var UserStoreInterface
+     * @var UserRepositoryInterface
      */
-    protected $store;
+    protected $repository;
 
     /**
      * HybridAuth instance
@@ -26,12 +26,12 @@ class Auth extends BaseController
     /**
      * Create
      *
-     * @param UserStoreInterface $store User store
+     * @param UserRepositoryInterface $repository User repository
      * @param Hybrid_Auth $hybridAuth HybridAuth for social logins
      */
-    public function __construct(UserStoreInterface $store, Hybrid_Auth $hybridAuth)
+    public function __construct(UserRepositoryInterface $repository, Hybrid_Auth $hybridAuth)
     {
-        $this->store = $store;
+        $this->repository = $repository;
         $this->hybridAuth = $hybridAuth;
     }
 
@@ -43,7 +43,7 @@ class Auth extends BaseController
     public function doLoginAction()
     {
         var_dump($this->request->getParsedBody());
-        var_dump($this->store->getByLogin('email', 'password'));
+        var_dump($this->repository->getByLogin('email', 'password'));
         exit;
     }
 
@@ -69,7 +69,7 @@ class Auth extends BaseController
 
         echo 'SOCIAL PROFILE:';
         var_dump($profile);
-        $user = $this->store->getBySocialAccount($args['provider'], $profile);
+        $user = $this->repository->getBySocialAccount($args['provider'], $profile);
         echo 'USER:';
         var_dump($user);
         exit;

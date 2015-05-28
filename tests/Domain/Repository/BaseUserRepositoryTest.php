@@ -1,35 +1,50 @@
 <?php
-namespace Test\Domain\Store;
+namespace Test\Domain\Repository;
 
 use InvalidArgumentException;
 use Mockery as m;
 use PHPUnit_Framework_TestCase;
 use Domain\Entity\UserInterface;
 use Domain\Entity\User;
-use Domain\Store\Exception\InvalidLoginException;
-use Domain\Store\Repository\UserRepositoryInterface;
-use Domain\Store\UserStoreInterface;
-use Domain\Store\UserStore;
+use Domain\Repository\BaseUserRepository;
+use Domain\Repository\InvalidLoginException;
+use Domain\Repository\UserRepositoryInterface;
+use Test\BaseTest;
 
-class UserStoreTest extends PHPUnit_Framework_TestCase
+class UserRepository extends BaseUserRepository
+{
+    public function findOneByEmail($email)
+    {
+    }
+
+    public function findOneBySocialAccount($type, $identifier)
+    {
+    }
+
+    public function addFromSocialAccount($type, array $data)
+    {
+    }
+}
+
+class BaseUserRepositoryTest extends BaseTest
 {
     public function testImplements()
     {
-        $store = new UserStore(m::mock(UserRepositoryInterface::class));
-        $this->assertInstanceOf(UserStoreInterface::class, $store);
+        $repo = m::mock(BaseUserRepository::class);
+        $this->assertInstanceOf(UserRepositoryInterface::class, $repo);
     }
 
     public function testGetByLoginCallsRepository()
     {
         $this->setExpectedException(InvalidLoginException::class);
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneByEmail')
             ->once()
             ->with('email')
             ->andReturn(null)
             ->getMock();
-        $store = new UserStore($repo);
-        $store->getByLogin('email', 'password');
+        $repo->getByLogin('email', 'password');
     }
 
     public function testGetByLoginChecksPassword()
@@ -40,41 +55,41 @@ class UserStoreTest extends PHPUnit_Framework_TestCase
             ->with('password')
             ->andReturn(true)
             ->getMock();
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneByEmail')
             ->once()
             ->with('email')
             ->andReturn($user)
             ->getMock();
-        $store = new UserStore($repo);
-        $store->getByLogin('email', 'password');
+        $repo->getByLogin('email', 'password');
     }
 
     public function testGetByLoginThrowsInvalidLoginWhenNoUser()
     {
         $this->setExpectedException(InvalidLoginException::class);
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneByEmail')
             ->once()
             ->with('email')
             ->andReturn(null)
             ->getMock();
-        $store = new UserStore($repo);
-        $store->getByLogin('email', 'password');
+        $repo->getByLogin('email', 'password');
     }
 
     public function testGetByLoginThrowsInvalidLoginWhenNoPassword()
     {
         $this->setExpectedException(InvalidLoginException::class);
         $user = new User();
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneByEmail')
             ->once()
             ->with('email')
             ->andReturn($user)
             ->getMock();
-        $store = new UserStore($repo);
-        $store->getByLogin('email', 'password');
+        $repo->getByLogin('email', 'password');
     }
 
     public function testGetByLoginThrowsInvalidLoginWhenInvalidPassword()
@@ -82,56 +97,58 @@ class UserStoreTest extends PHPUnit_Framework_TestCase
         $this->setExpectedException(InvalidLoginException::class);
         $user = new User();
         $user->setPassword('another');
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneByEmail')
             ->once()
             ->with('email')
             ->andReturn($user)
             ->getMock();
-        $store = new UserStore($repo);
-        $store->getByLogin('email', 'password');
+        $repo->getByLogin('email', 'password');
     }
 
     public function testGetByLoginFindsUser()
     {
         $user = new User();
         $user->setPassword('password');
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneByEmail')
             ->once()
             ->with('email')
             ->andReturn($user)
             ->getMock();
-        $store = new UserStore($repo);
-        $result = $store->getByLogin('email', 'password');
+        $result = $repo->getByLogin('email', 'password');
         $this->assertSame($user, $result);
     }
 
     public function testGetBySocialAccountMissingIdentifier()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $store = new UserStore(m::mock(UserRepositoryInterface::class));
-        $store->getBySocialAccount('type', []);
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial();
+        $repo->getBySocialAccount('type', []);
     }
 
     public function testGetBySocialAccountExistingIdentifier()
     {
         $user = new User();
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneBySocialAccount')
             ->once()
             ->with('type', 'id')
             ->andReturn($user)
             ->getMock();
-        $store = new UserStore($repo);
-        $result = $store->getBySocialAccount('type', ['identifier' => 'id']);
+        $result = $repo->getBySocialAccount('type', ['identifier' => 'id']);
         $this->assertSame($user, $result);
     }
 
     public function testGetBySocialAccountNonExistingIdentifier()
     {
         $user = new User();
-        $repo = m::mock(UserRepositoryInterface::class)
+        $repo = m::mock(BaseUserRepository::class)
+            ->makePartial()
             ->shouldReceive('findOneBySocialAccount')
             ->once()
             ->with('type', 'id')
@@ -141,8 +158,7 @@ class UserStoreTest extends PHPUnit_Framework_TestCase
             ->andReturn($user)
             ->once()
             ->getMock();
-        $store = new UserStore($repo);
-        $result = $store->getBySocialAccount('type', ['identifier' => 'id']);
+        $result = $repo->getBySocialAccount('type', ['identifier' => 'id']);
         $this->assertSame($user, $result);
     }
 }

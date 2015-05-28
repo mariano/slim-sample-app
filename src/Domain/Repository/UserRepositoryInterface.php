@@ -1,31 +1,24 @@
 <?php
-namespace Domain\Store\Repository;
+namespace Domain\Repository;
 
 interface UserRepositoryInterface
 {
     /**
-     * Get User by email
+     * Check an email and password matches a valid User
      *
      * @param string $email Email
-     * @return User|null
+     * @param string $password Password
+     * @return User
+     * @throws Data\Store\Exception\InvalidLoginException
      */
-    public function findOneByEmail($email);
+    public function getByLogin($email, $password);
 
     /**
-     * Get the User linked to a SocialAccount
+     * Get/Create a User out of a SocialAccountInterface
      *
-     * @param string $type SocialAccountIdentifier type
-     * @param string $identifier Identifier
-     * @return User|null
-     */
-    public function findOneBySocialAccount($type, $identifier);
-
-    /**
-     * Add a new user with data from a SocialAccount
-     *
-     * @param string $type SocialAccountIdentifier type
-     * @param array $data Data
+     * @param string $type SocialAccountInterface type
+     * @param array $data SocialAccount data (should at least contain identifier)
      * @return User
      */
-    public function addFromSocialAccount($type, array $data);
+    public function getBySocialAccount($type, array $data);
 }

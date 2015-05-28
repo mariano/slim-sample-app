@@ -18,16 +18,10 @@ $di->set('EntityManager', $di->lazy(function () use ($di) {
 }));
 
 foreach ([
-    'User' => [
-        Domain\Store\UserStore::class,
-        Infrastructure\Domain\Doctrine\Repository\UserRepository::class
-    ]
-] as $entity => $store) {
-    list($storeImplementation, $repositoryImplementation) = $store;
-    $di->set("{$entity}Store", $di->lazyNew($storeImplementation, [
-        'repo' => $di->lazyNew($repositoryImplementation, [
-            'em' => $di->lazyGet('EntityManager')
-        ])
+    'User' => Infrastructure\Domain\Doctrine\Repository\UserRepository::class
+] as $entity => $repositoryImplementation) {
+    $di->set("{$entity}Repository", $di->lazyNew($repositoryImplementation, [
+        'em' => $di->lazyGet('EntityManager')
     ]));
 }
 

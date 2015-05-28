@@ -3,11 +3,12 @@ namespace Infrastructure\Domain\Doctrine\Repository;
 
 use Doctrine\Common\Persistence\ObjectRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Domain\Store\Repository\UserRepositoryInterface;
+use Domain\Repository\BaseUserRepository;
+use Domain\Repository\UserRepositoryInterface;
 use Infrastructure\Domain\Doctrine\Entity\SocialAccount;
 use Infrastructure\Domain\Doctrine\Entity\User;
 
-class UserRepository implements UserRepositoryInterface
+class UserRepository extends BaseUserRepository implements UserRepositoryInterface
 {
     /**
      * Doctrine entity manager

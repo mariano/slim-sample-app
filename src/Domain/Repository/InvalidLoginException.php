@@ -1,5 +1,5 @@
 <?php
-namespace Domain\Store\Exception;
+namespace Domain\Repository;
 
 use Exception;
 

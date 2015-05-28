@@ -67,7 +67,7 @@ $di->set('HybridAuth', $di->lazy(function () use ($di, $app) {
 
 $container['Auth'] = function () use ($di) {
     return $di->newInstance(Application\Controller\Auth::class, [
-        'store' => $di->get('UserStore'),
+        'repository' => $di->get('UserRepository'),
         'hybridAuth' => $di->get('HybridAuth')
     ]);
 };

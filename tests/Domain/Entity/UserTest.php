@@ -3,13 +3,12 @@ namespace Test\Domain\Entity;
 
 use DateTime;
 use InvalidArgumentException;
-use Mockery as m;
-use PHPUnit_Framework_TestCase;
 use RandomLib\Factory;
 use SecurityLib\Strength;
 use Domain\Entity\SocialAccount;
 use Domain\Entity\UserInterface;
 use Domain\Entity\User;
+use Test\BaseTest;
 
 class MockUser extends User
 {
@@ -24,7 +23,7 @@ class MockUser extends User
     }
 }
 
-class UserTest extends PHPUnit_Framework_TestCase
+class UserTest extends BaseTest
 {
     public function testImplements()
     {
