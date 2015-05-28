@@ -1,29 +1,10 @@
 <?php
-namespace Domain\Store;
+namespace Domain\Repository;
 
 use InvalidArgumentException;
-use Domain\Store\Exception\InvalidLoginException;
-use Domain\Store\Repository\UserRepositoryInterface;
 
-class UserStore implements UserStoreInterface
+abstract class BaseUserRepository implements UserRepositoryInterface
 {
-    /**
-     * Repository
-     *
-     * @var UserRepositoryInterface
-     */
-    private $repo;
-
-    /**
-     * Constructor
-     *
-     * @param UserRepositoryInterface Repository
-     */
-    public function __construct(UserRepositoryInterface $repo)
-    {
-        $this->repo = $repo;
-    }
-
     /**
      * Check an email and password matches a valid User
      *
@@ -34,7 +15,7 @@ class UserStore implements UserStoreInterface
      */
     public function getByLogin($email, $password)
     {
-        $user = $this->repo->findOneByEmail($email);
+        $user = $this->findOneByEmail($email);
         if (!$user || !$user->checkPassword($password)) {
             throw new InvalidLoginException($email);
         }
@@ -54,11 +35,37 @@ class UserStore implements UserStoreInterface
             throw new InvalidArgumentException('Missing required data from Social account');
         }
 
-        $user = $this->repo->findOneBySocialAccount($type, $data['identifier']);
+        $user = $this->findOneBySocialAccount($type, $data['identifier']);
         if (isset($user)) {
             return $user;
         }
 
-        return $this->repo->addFromSocialAccount($type, $data);
+        return $this->addFromSocialAccount($type, $data);
     }
+
+    /**
+     * Get User by email
+     *
+     * @param string $email Email
+     * @return User|null
+     */
+    abstract public function findOneByEmail($email);
+
+    /**
+     * Get the User linked to a SocialAccount
+     *
+     * @param string $type SocialAccountIdentifier type
+     * @param string $identifier Identifier
+     * @return User|null
+     */
+    abstract public function findOneBySocialAccount($type, $identifier);
+
+    /**
+     * Add a new user with data from a SocialAccount
+     *
+     * @param string $type SocialAccountIdentifier type
+     * @param array $data Data
+     * @return User
+     */
+    abstract public function addFromSocialAccount($type, array $data);
 }
