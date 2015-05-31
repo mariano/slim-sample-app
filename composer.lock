@@ -1027,12 +1027,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "1267417e430f00e9d972fc637f424bd1289d304a"
+                "reference": "7ae397e30aa8e4159c62ff826955d75a356cea03"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/1267417e430f00e9d972fc637f424bd1289d304a",
-                "reference": "1267417e430f00e9d972fc637f424bd1289d304a",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/7ae397e30aa8e4159c62ff826955d75a356cea03",
+                "reference": "7ae397e30aa8e4159c62ff826955d75a356cea03",
                 "shasum": ""
             },
             "require": {
@@ -1091,7 +1091,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2015-05-30 16:07:47"
+            "time": "2015-05-30 21:07:29"
         },
         {
             "name": "slim/twig-view",
@@ -1944,16 +1944,16 @@
         },
         {
             "name": "phpunit/php-code-coverage",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "ba315f46873fd6e86fdb98685a1a900e7379c886"
+                "reference": "60991776b3994cd8297b861e8ddc7f9c9500dedc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/ba315f46873fd6e86fdb98685a1a900e7379c886",
-                "reference": "ba315f46873fd6e86fdb98685a1a900e7379c886",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/60991776b3994cd8297b861e8ddc7f9c9500dedc",
+                "reference": "60991776b3994cd8297b861e8ddc7f9c9500dedc",
                 "shasum": ""
             },
             "require": {
@@ -2002,7 +2002,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-05-30 12:58:40"
+            "time": "2015-05-31 03:14:06"
         },
         {
             "name": "phpunit/php-file-iterator",
