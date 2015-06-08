@@ -1024,12 +1024,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "da79e4b583a2bfb6649ca0cb956b06a7d0d8ebde"
+                "reference": "743fcc6d134f961367d9554e85b1ecb67afb8e35"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/da79e4b583a2bfb6649ca0cb956b06a7d0d8ebde",
-                "reference": "da79e4b583a2bfb6649ca0cb956b06a7d0d8ebde",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/743fcc6d134f961367d9554e85b1ecb67afb8e35",
+                "reference": "743fcc6d134f961367d9554e85b1ecb67afb8e35",
                 "shasum": ""
             },
             "require": {
@@ -1088,7 +1088,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2015-06-05 08:48:53"
+            "time": "2015-06-07 19:04:37"
         },
         {
             "name": "slim/twig-view",
@@ -1258,16 +1258,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.18.1",
+            "version": "v1.18.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "9f70492f44398e276d1b81c1b43adfe6751c7b7f"
+                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/9f70492f44398e276d1b81c1b43adfe6751c7b7f",
-                "reference": "9f70492f44398e276d1b81c1b43adfe6751c7b7f",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/e8e6575abf6102af53ec283f7f14b89e304fa602",
+                "reference": "e8e6575abf6102af53ec283f7f14b89e304fa602",
                 "shasum": ""
             },
             "require": {
@@ -1311,7 +1311,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2015-04-19 08:30:27"
+            "time": "2015-06-06 23:31:24"
         },
         {
             "name": "vlucas/phpdotenv",
