@@ -84,16 +84,16 @@
         },
         {
             "name": "doctrine/annotations",
-            "version": "v1.2.4",
+            "version": "v1.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/annotations.git",
-                "reference": "b5202eb9e83f8db52e0e58867e0a46e63be8332e"
+                "reference": "f4a91702ca3cd2e568c3736aa031ed00c3752af4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/annotations/zipball/b5202eb9e83f8db52e0e58867e0a46e63be8332e",
-                "reference": "b5202eb9e83f8db52e0e58867e0a46e63be8332e",
+                "url": "https://api.github.com/repos/doctrine/annotations/zipball/f4a91702ca3cd2e568c3736aa031ed00c3752af4",
+                "reference": "f4a91702ca3cd2e568c3736aa031ed00c3752af4",
                 "shasum": ""
             },
             "require": {
@@ -148,7 +148,7 @@
                 "docblock",
                 "parser"
             ],
-            "time": "2014-12-23 22:40:37"
+            "time": "2015-06-17 12:21:22"
         },
         {
             "name": "doctrine/cache",
@@ -1024,12 +1024,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "48a16a51a54ba57eec6f4543923f75cbfb5f9566"
+                "reference": "c45179af02ef9de1045f940d5d5cd5112e32bca4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/48a16a51a54ba57eec6f4543923f75cbfb5f9566",
-                "reference": "48a16a51a54ba57eec6f4543923f75cbfb5f9566",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/c45179af02ef9de1045f940d5d5cd5112e32bca4",
+                "reference": "c45179af02ef9de1045f940d5d5cd5112e32bca4",
                 "shasum": ""
             },
             "require": {
@@ -1041,7 +1041,8 @@
             },
             "require-dev": {
                 "mockery/mockery": "dev-master@dev",
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "*",
+                "satooshi/php-coveralls": "dev-master"
             },
             "type": "library",
             "extra": {
@@ -1088,7 +1089,7 @@
                 "micro",
                 "router"
             ],
-            "time": "2015-06-12 08:07:24"
+            "time": "2015-06-17 01:32:17"
         },
         {
             "name": "slim/twig-view",
